@@ -99,7 +99,7 @@ def GetLasts(count):
     cursor.close()
     print(str(res)) #for testing - must remove after
     DestroyConnection(conn)
-    return JSON_Dump(res, conn)
+    return JSON_Dump(res, conn) #for now the function return a json, in the same way GetCustom() logic do
 
 
 # TODO: User management
