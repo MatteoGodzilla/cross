@@ -7,7 +7,7 @@
 # API Reference for mariadb
 # https://mariadb-corporation.github.io/mariadb-connector-python/
 
-from flask import Flask
+from flask import Flask, Response
 from mariadb import mariadb,Error,Connection
 from custom import Custom,CustomJSONEncoder
 import json
@@ -65,9 +65,9 @@ def GetCustom(id):
 
     if res is not None:
         custom = Custom(res)
-        return json.dumps(custom,cls=CustomJSONEncoder,indent=4)
+        return Response(json.dumps(custom,cls=CustomJSONEncoder,indent=4),content_type="application/json")
     else:
-        return "There was an error trying to get custom {}.".format(id),501
+        return "There was an error trying to get custom {}.".format(id),502
 
 # POST /api/v1/customs/add
 # Adds a new custom. Values are encoded into the html as json in the same format as "Custom" class
@@ -75,7 +75,7 @@ def GetCustom(id):
 
 # GET /api/v1/customs/latest/<count>
 # returns an array containing ids of the most recent <count> customs in the database
-@app.route("/api/v1/customs/latests/<count>")
+@app.route("/api/v1/customs/latest/<count>")
 def GetLasts(count):
     count = int(count)
     if count < 0:
@@ -87,15 +87,12 @@ def GetLasts(count):
 
     InitializeIfNeeded(conn)
     cursor = conn.cursor()
-    param_query = "SELECT id FROM customs ORDER BY lastUpdate LIMIT %s"
-    cursor.execute(param_query, count)
+    param_query = "SELECT id FROM customs ORDER BY lastUpdate LIMIT ?"
+    cursor.execute(param_query, [count])
     res=cursor.fetchall()
     cursor.close()
-    #print(str(res)) #for testing - must remove after
     DestroyConnection(conn)
-    return res # temporary
-
-    #return JSON_Dump(res, conn) #for now the function return a json, in the same way GetCustom() logic do
+    return [ row[0] for row in res ]
 
 # Default route
 @app.route("/")
