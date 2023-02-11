@@ -8,8 +8,9 @@
 # https://mariadb-corporation.github.io/mariadb-connector-python/
 
 from flask import Flask
-import mariadb
-from mariadb import Error,Connection
+from mariadb import mariadb,Error,Connection
+from custom import Custom,CustomJSONEncoder
+import json
 
 # SETTING UP THE ROOT FLASK VARIABLE
 app = Flask(__name__)
@@ -41,29 +42,6 @@ def InitializeIfNeeded(connection:Connection) -> None:
         cursor.close()
         print("Initialized the database")
 
-# CREATING ONE SINGLE JSON STRING FROM QUERY RESPONSE
-def JSON_Dump(res, cnn) -> str:
-    cursor = cnn.cursor()
-    cursor.execute("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'customs'")
-    table_headers = cursor.fetchall()
-    json_complete = []
-    json = ""
-    c = 0
-
-    while c < len(table_headers):
-        for (head, r) in (table_headers, res):
-            json+="{\'"+head[c]+"\':\'"+r[c]+"\'}"
-        c+=1
-        json_complete.append(json)
-        json = ""
-
-    json = ""
-
-    for j in json_complete:
-        json += j
-
-    return json
-
 # GET /api/v1/customs/<id>
 # Returns a "Custom" class instance, encoded in json
 # <id> refers to the database key in the db, not IDTag
@@ -78,15 +56,18 @@ def GetCustom(id):
 
     InitializeIfNeeded(conn)
     cursor = conn.cursor()
-    param_query = "SELECT * FROM customs WHERE id = ?"
+    param_query = "SELECT * FROM customs WHERE id = ? AND visible = 1"
     # data parameter has to be either a tuple or a list
     cursor.execute(param_query, [id])
-    res=cursor.fetchall() #fetchall() function give in return a list of lists containing rows content
+    res=cursor.fetchone()
     cursor.close()
     DestroyConnection(conn)
 
-    return res # temporary
-    #return JSON_Dump(res, conn)
+    if res is not None:
+        custom = Custom(res)
+        return json.dumps(custom,cls=CustomJSONEncoder,indent=4)
+    else:
+        return "There was an error trying to get custom {}.".format(id),501
 
 # POST /api/v1/customs/add
 # Adds a new custom. Values are encoded into the html as json in the same format as "Custom" class
@@ -99,7 +80,7 @@ def GetLasts(count):
     count = int(count)
     if count < 0:
         count *= -1
-        
+
     conn = CreateConnection()
     if conn is None:
         return "There was an error with connecting to the database (501)"
@@ -116,5 +97,7 @@ def GetLasts(count):
 
     #return JSON_Dump(res, conn) #for now the function return a json, in the same way GetCustom() logic do
 
-
-# TODO: User management
+# Default route
+@app.route("/")
+def default():
+    return "Default page"
