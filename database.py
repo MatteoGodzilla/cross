@@ -8,11 +8,13 @@ load_dotenv()
 
 # BUILDING THE DB CONNECTION
 def CreateConnection() -> Connection|None:
-    # test database, this is not production yet
-    connection = mariadb.connect(host=os.getenv("DB_HOST"), database='cross', user=os.getenv("DB_USER"), password=os.getenv("DB_PASSWORD"))
-    if connection.open:
-        return connection
-    else:
+    try:
+        connection = mariadb.connect(host=os.getenv("DB_HOST"), database='cross', user=os.getenv("DB_USER"), password=os.getenv("DB_PASSWORD"))
+        if connection.open:
+            return connection
+        else:
+            return None
+    except:
         return None
 
 # DESTROYING THE DB CONNECTION

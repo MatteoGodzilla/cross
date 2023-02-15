@@ -55,6 +55,7 @@ class DeckSpeeds:
 
 class Custom:
     def __init__(self,values = []) -> None:
+        print(values)
         # values should be the full row from the customs table
         # the filtering of values is done here
         if len(values) > 0:
@@ -62,11 +63,11 @@ class Custom:
             self.BPM : float = values[2]
             self.DownloadLink : str = values[3]
             self.Songs : list[Song] = []
-            if values[4] != "":
+            if values[4] != "" and values[4] != None:
                 self.Songs.append(Song(values[4:6]))
-            if values[6] != "":
+            if values[6] != "" and values[6] != None:
                 self.Songs.append(Song(values[6:8]))
-            if values[8] != "":
+            if values[8] != "" and values[8] != None:
                 self.Songs.append(Song(values[8:10]))
             self.Charter : str = values[10]
             self.Mixer : str = values[11]

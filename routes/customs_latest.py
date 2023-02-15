@@ -1,5 +1,5 @@
 from database import *
-from flask import Blueprint
+from flask import Blueprint, Response
 from common import URL_PREFIX
 
 customs_latest = Blueprint("customs_latest",__name__,url_prefix=URL_PREFIX)
@@ -14,7 +14,7 @@ def GetLasts(count):
 
     conn = CreateConnection()
     if conn is None:
-        return "There was an error with connecting to the database (501)"
+        return Response("There was an error with connecting to the database (500)", 500)
 
     InitializeIfNeeded(conn)
     cursor = conn.cursor()
