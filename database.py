@@ -1,11 +1,15 @@
 # API Reference for mariadb
 # https://mariadb-corporation.github.io/mariadb-connector-python/
 from mariadb import mariadb,Error,Connection
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # BUILDING THE DB CONNECTION
 def CreateConnection() -> Connection|None:
     # test database, this is not production yet
-    connection = mariadb.connect(host='34.28.206.168', database='cross', user='remote', password='remotePassword')
+    connection = mariadb.connect(host=os.getenv("DB_HOST"), database='cross', user=os.getenv("DB_USER"), password=os.getenv("DB_PASSWORD"))
     if connection.open:
         return connection
     else:
