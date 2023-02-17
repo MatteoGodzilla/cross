@@ -18,7 +18,7 @@ def GetCustom(id):
     if conn is None:
         return Response("There was an error with connecting to the database (500)",500)
 
-    InitializeIfNeeded(conn)
+    #InitializeIfNeeded(conn)
     cursor = conn.cursor()
     param_query = "SELECT * FROM customs WHERE id = ? AND visible = 1"
     # data parameter has to be either a tuple or a list

@@ -16,7 +16,7 @@ def GetLasts(count):
     if conn is None:
         return Response("There was an error with connecting to the database (500)", 500)
 
-    InitializeIfNeeded(conn)
+    #InitializeIfNeeded(conn)
     cursor = conn.cursor()
     param_query = "SELECT id FROM customs ORDER BY lastUpdate LIMIT ?"
     cursor.execute(param_query, [count])

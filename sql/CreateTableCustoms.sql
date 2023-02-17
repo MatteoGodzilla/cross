@@ -1,7 +1,3 @@
-CREATE DATABASE IF NOT EXISTS `cross`;
-
-USE `cross`;
-
 CREATE TABLE IF NOT EXISTS `customs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `IDTag` varchar(50) NOT NULL,
@@ -35,12 +31,4 @@ CREATE TABLE IF NOT EXISTS `customs` (
   `lastUpdate` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDTag_UNIQUE` (`IDTag`)
-);
-
-CREATE TABLE IF NOT EXISTS `users` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`Username` VARCHAR(50) NOT NULL,
-	`HashedPassword` VARCHAR(70) NOT NULL,
-	PRIMARY KEY (`ID`),
-	UNIQUE KEY `Username_UNIQUE` (`Username`)
 );
