@@ -36,3 +36,11 @@ CREATE TABLE IF NOT EXISTS `customs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDTag_UNIQUE` (`IDTag`)
 );
+
+CREATE TABLE IF NOT EXISTS `users` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`Username` VARCHAR(50) NOT NULL,
+	`HashedPassword` VARCHAR(70) NOT NULL,
+	PRIMARY KEY (`ID`),
+	UNIQUE KEY `Username_UNIQUE` (`Username`)
+);

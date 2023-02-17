@@ -1,4 +1,4 @@
-from flask import Blueprint,Response
+from flask import Blueprint,Response, request
 from database import *
 from custom import Custom, CustomJSONEncoder
 import json
@@ -38,6 +38,7 @@ def GetCustom(id):
 # Request must have an Authorization code attached to the header
 @customs_id.route("customs/<id>",methods=["PATCH"])
 def PatchCustom(id):
+    return CheckAuth(request)
     return Response("Not Implemented yet",501)
 
 # DELETE /api/v1/customs/<id>

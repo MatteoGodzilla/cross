@@ -3,6 +3,7 @@
 from mariadb import mariadb,Error,Connection
 from dotenv import load_dotenv
 import os
+from flask import Request
 
 load_dotenv()
 
