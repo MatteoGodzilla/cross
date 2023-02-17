@@ -2,12 +2,11 @@ from flask import Blueprint, request, Response
 from common import URL_PREFIX
 import base64
 import bcrypt
-import os
-import dotenv
+import uuid
 from database import *
+from datetime import datetime,timezone,timedelta
 
 login = Blueprint("login",__name__,url_prefix=URL_PREFIX)
-dotenv.load_dotenv()
 
 @login.route("login")
 def basicLogin():
@@ -24,28 +23,44 @@ def basicLogin():
 
     # decode auth_value into user and password
     username,clear_password = base64.b64decode(auth_value).decode().split(":")
-    #password = bcrypt.hashpw(clear_password.encode(),os.getenv("SALT").encode())
 
     conn = CreateConnection()
     if conn == None:
-        return Response("There was an error with the database",500)
+        return Response("There was an error with the database (not connected)",500)
 
     cursor = conn.cursor()
-    query = "SELECT HashedPassword FROM users WHERE Username = ?"
+    query = "SELECT id, HashedPassword FROM users WHERE Username = ?"
 
     cursor.execute(query,[username])
-    db_password = cursor.fetchone()
+    res = cursor.fetchone()
+    if res == None:
+        return Response("There was an error with the database (username not found)",500)
+    userID, db_password = res
     cursor.close()
-    DestroyConnection(conn)
 
     if db_password == None:
         # Username is wrong
         return str(False)
 
-    print(db_password[0])
-
-    if bcrypt.checkpw(clear_password.encode(),str(db_password[0]).encode()):
+    if bcrypt.checkpw(clear_password.encode(),str(db_password).encode()):
         # Generate token
-        return Response("34567890nyictyonctyontcyno")
+        cursor = conn.cursor()
+
+        code = str(uuid.uuid4())
+        # By default the token provided works for up to 2 hours
+        # 2 hours = 2*60*60
+        now = datetime.now(timezone.utc).replace(microsecond=0)
+        expires = now + timedelta(hours=2)
+        #print(userID)
+        #print(code)
+        #print(expires)
+        sql = "INSERT INTO auth (`User ID`,`Code`,`Expires`) VALUES (?,?,?);"
+        cursor.execute(sql,[userID,code,expires])
+        cursor.close()
+        conn.commit()
+        DestroyConnection(conn)
+
+        return code
     else :
+        DestroyConnection(conn)
         return Response("Invalid credentials",401)

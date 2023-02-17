@@ -47,6 +47,37 @@ def InitializeIfNeeded(connection:Connection) -> None:
     script = "".join(file.readlines())
     cursor.execute(script)
     file.close()
-    #connection.commit()
+
+    # Create Users table
+    file = open("./sql/CreateTableAuth.sql")
+    script = "".join(file.readlines())
+    cursor.execute(script)
+    file.close()
+
     cursor.close()
     print("Initialized the database")
+
+# Returns true if the 'Authorization' header contains a valid bearer token
+def CheckAuth(req:Request) -> bool:
+    authorization = req.headers.get("Authorization")
+    if authorization == None:
+        # No Header was specified
+        return False
+
+    auth_type,auth_value = authorization.split(" ")
+    if auth_type != "Bearer":
+        # Wrong Auth type
+        return False
+    if auth_value == None:
+        # No code specified
+        return False
+
+    connection = CreateConnection()
+    cursor = connection.cursor()
+
+    sql = "SELECT id FROM auth WHERE code = ? AND Expires > now();"
+    cursor.execute(sql,[auth_value])
+    res = cursor.fetchone()
+    cursor.close()
+    DestroyConnection(connection)
+    return res != None

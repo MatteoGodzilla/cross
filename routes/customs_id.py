@@ -38,12 +38,17 @@ def GetCustom(id):
 # Request must have an Authorization code attached to the header
 @customs_id.route("customs/<id>",methods=["PATCH"])
 def PatchCustom(id):
-    return CheckAuth(request)
-    return Response("Not Implemented yet",501)
+    if CheckAuth(request):
+        return Response("Welcome!")
+    else:
+        return Response("You have to login first",401)
 
 # DELETE /api/v1/customs/<id>
 # Attempts to delete a custom already in the database
 # Request must have an Authorization code attached to the header
 @customs_id.route("customs/<id>",methods=["DELETE"])
 def DeleteCustom(id):
-    return Response("Not Implemented yet",501)
+    if CheckAuth(request):
+        return Response("Welcome!")
+    else:
+        return Response("You have to login first",401)
