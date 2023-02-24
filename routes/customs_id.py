@@ -1,21 +1,20 @@
-from flask import Blueprint,Response, request
+from fastapi import APIRouter,Response,Header
 from database import *
-from custom import Custom, CustomJSONEncoder
-import json
+from custom import CreateCustom
 from common import URL_PREFIX
 
-customs_id = Blueprint("customs_id", __name__, url_prefix=URL_PREFIX)
+customs_id = APIRouter(prefix=URL_PREFIX)
 
 # GET /api/v1/customs/<id>
 # Returns a "Custom" class instance, encoded in json
 # <id> refers to the database key in the db, not IDTag
-@customs_id.route("customs/<id>",methods=["GET"])
-def GetCustom(id):
-    id = int(id)
+@customs_id.get("/customs/{id}")
+def GetCustom(id:int):
     if id < 0:
         id *= -1
     conn = CreateConnection()
     if conn is None:
+        # Convert to HTTPException
         return Response("There was an error with connecting to the database (500)",500)
 
     #InitializeIfNeeded(conn)
@@ -28,27 +27,29 @@ def GetCustom(id):
     DestroyConnection(conn)
 
     if res is not None:
-        custom = Custom(res)
-        return Response(json.dumps(custom,cls=CustomJSONEncoder,indent=4),content_type="application/json")
+        return CreateCustom(res)
     else:
+        # Convert to raise HTTPException
         return Response("There was an error trying to get custom {}.".format(id), 500)
 
 # PATCH /api/v1/customs/<id>
 # Attempts to change a custom already in the database
 # Request must have an Authorization code attached to the header
-@customs_id.route("customs/<id>",methods=["PATCH"])
-def PatchCustom(id):
-    if CheckAuth(request):
+@customs_id.patch("/customs/{id}")
+def PatchCustom(id:int,authorization:str|None=Header(default=None)):
+    if CheckAuth(authorization):
         return Response("Welcome!")
     else:
+        # Convert to raise HTTPException
         return Response("You have to login first",401)
 
 # DELETE /api/v1/customs/<id>
 # Attempts to delete a custom already in the database
 # Request must have an Authorization code attached to the header
-@customs_id.route("customs/<id>",methods=["DELETE"])
-def DeleteCustom(id):
-    if CheckAuth(request):
+@customs_id.delete("/customs/{id}")
+def DeleteCustom(id:int,authorization:str|None=Header(default=None)):
+    if CheckAuth(authorization):
         return Response("Welcome!")
     else:
+        # Convert to raise HTTPException
         return Response("You have to login first",401)

@@ -1,16 +1,16 @@
-from flask import Flask
+from fastapi import FastAPI
 from routes.customs_create import customs_create
 from routes.customs_id import customs_id
 from routes.customs_latest import customs_latest
 from routes.login import login
 
-app = Flask(__name__)
-app.register_blueprint(customs_create)
-app.register_blueprint(customs_id)
-app.register_blueprint(customs_latest)
-app.register_blueprint(login)
+app = FastAPI()
+app.include_router(customs_create)
+app.include_router(customs_id)
+app.include_router(customs_latest)
+app.include_router(login)
 
 # Default route
-@app.route("/")
+@app.get("/")
 def default():
     return "Default page"

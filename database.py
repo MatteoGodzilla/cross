@@ -1,9 +1,9 @@
 # API Reference for mariadb
 # https://mariadb-corporation.github.io/mariadb-connector-python/
-from mariadb import mariadb,Error,Connection
+from mariadb import mariadb,Connection
 from dotenv import load_dotenv
 import os
-from flask import Request
+from fastapi import Request
 
 load_dotenv()
 
@@ -58,10 +58,8 @@ def InitializeIfNeeded(connection:Connection) -> None:
     print("Initialized the database")
 
 # Returns true if the 'Authorization' header contains a valid bearer token
-def CheckAuth(req:Request) -> bool:
-    authorization = req.headers.get("Authorization")
+def CheckAuth(authorization:str|None) -> bool:
     if authorization == None:
-        # No Header was specified
         return False
 
     auth_type,auth_value = authorization.split(" ")

@@ -1,4 +1,4 @@
-from flask import Blueprint, request, Response
+from fastapi import APIRouter, Response,Header,HTTPException
 from common import URL_PREFIX
 import base64
 import bcrypt
@@ -6,19 +6,20 @@ import uuid
 from database import *
 from datetime import datetime,timezone,timedelta
 
-login = Blueprint("login",__name__,url_prefix=URL_PREFIX)
+login = APIRouter(prefix=URL_PREFIX)
 
-@login.route("login")
-def basicLogin():
+@login.get("/login")
+def basicLogin(authorization:str|None = Header(default=None)):
     # The user will send username and password as a basic Authorization header
-    authorization = request.headers.get("Authorization")
     if authorization == None:
         return Response("No Authorization header was found",401)
 
     auth_type,auth_value = authorization.split(" ")
     if auth_type != "Basic":
+        # Convert to raise HTTPException
         return Response("Authorization type must be set to Basic",401)
     if auth_value == None:
+        # Convert to raise HTTPException
         return Response("Authorization type is set to Basic, but no user:password was specified",401)
 
     # decode auth_value into user and password
@@ -26,6 +27,7 @@ def basicLogin():
 
     conn = CreateConnection()
     if conn == None:
+        # Convert to raise HTTPException
         return Response("There was an error with the database (not connected)",500)
 
     cursor = conn.cursor()
@@ -34,6 +36,7 @@ def basicLogin():
     cursor.execute(query,[username])
     res = cursor.fetchone()
     if res == None:
+        # Convert to raise HTTPException
         return Response("There was an error with the database (username not found)",500)
     userID, db_password = res
     cursor.close()
@@ -63,4 +66,5 @@ def basicLogin():
         return code
     else :
         DestroyConnection(conn)
+        # Convert to raise HTTPException
         return Response("Invalid credentials",401)
