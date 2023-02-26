@@ -1,6 +1,6 @@
 from fastapi import APIRouter,Response,Header
 from database import *
-from custom import CreateCustom
+from custom import CreateCustom,Custom,CustomToDBValues,CustomToDBColumns
 from common import URL_PREFIX
 
 customs_id = APIRouter(prefix=URL_PREFIX)
@@ -14,7 +14,7 @@ def GetCustom(id:int):
         id *= -1
     conn = CreateConnection()
     if conn is None:
-        # Convert to HTTPException
+        # Convert to raise HTTPException
         return Response("There was an error with connecting to the database (500)",500)
 
     # InitializeIfNeeded(conn) - At the moment this function call is useless.
@@ -36,33 +36,49 @@ def GetCustom(id:int):
 # Attempts to change a custom already in the database
 # Request must have an Authorization code attached to the header
 @customs_id.patch("/customs/{id}")
-def PatchCustom(id:int,authorization:str, elem:Custom|None=Header(default=None)):
+def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)):
     if CheckAuth(authorization):
         conn = CreateConnection()
         if conn is None:
-            #Convert to HTTPException
+            #Convert to raise HTTPException
             return Response("There was an error with connecting to the database (500)",500)
         cursor = conn.cursor()
-        
+
         param_query = "SELECT * FROM customs WHERE id = ?"
         cursor.execute(param_query, [id])
         old = cursor.fetchone()
-       
-        new_data = json.loads(elem.json())
-        keys = new_data.keys()
-        values = new_data.values()
+
+        if old == None:
+            #Convert to raise HTTPException
+            return Response("A Valid custom id must be provided (400)",400)
+
+        # The specified id in the url exists
+
+        columns = CustomToDBColumns(elem)
+        data = CustomToDBValues(elem)
+
+        #new_data = json.loads(elem.json())
+        #keys = new_data.keys()
+        #values = list(new_data.values())
+        #print(values)
+
         param_query = "UPDATE customs SET "
-        for e in keys:
-            param_query += e+"= ?, "
+        for i,e in enumerate(columns):
+            e = columns[i]
+            param_query += e + " = ?"
+            if i < len(columns)-1:
+                param_query += ", "
         param_query += " WHERE id = ?;"
-        values.append(id)
-        cursor.execute(param_query, values)
-        
+
+        data.append(id)
+        cursor.execute(param_query, data)
+
         param_query = "SELECT * FROM customs WHERE id = ?"
         cursor.execute(param_query, [id])
         new = cursor.fetchone()
-        
+
         cursor.close()
+        conn.commit()
         DestroyConnection(conn)
         if old == new:
             return Response("An error as occured (500)", 500)
@@ -71,7 +87,7 @@ def PatchCustom(id:int,authorization:str, elem:Custom|None=Header(default=None))
     else:
         # Convert to raise HTTPException
         return Response("You have to login first",401)
-    
+
 # DELETE /api/v1/customs/<id>
 # Attempts to delete a custom already in the database
 # Request must have an Authorization code attached to the header
@@ -80,19 +96,20 @@ def DeleteCustom(id:int,authorization:str|None=Header(default=None)):
     if CheckAuth(authorization):
         conn = CreateConnection()
         if conn is None:
-            #Convert to HTTPException
+            #Convert to raise HTTPException
             return Response("There was an error with connecting to the database (500)",500)
+
         cursor = conn.cursor()
-        param_query = "DELETE * FROM customs WHERE id = ?;"
+        param_query = "DELETE FROM customs WHERE id = ?;"
         cursor.execute(param_query, [id])
         cursor.close()
-        
-        # CheckExistence(conn, id) - Probably useful to check the deletion and the update of one custom
+
         if CheckExistence(conn, id) == 0:
             DestroyConnection(conn)
-            return Response("Resource deleted successfully (204)", 204)
+            return Response("Resource deleted successfully") #Code 204 creates errors 
         else:
             DestroyConnection(conn)
+            # Convert to raise HTTPException
             return Response("The deletion process has encountered an exception (501)", 501) #Exception 501 is temporarily
     else:
         # Convert to raise HTTPException

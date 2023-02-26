@@ -85,7 +85,7 @@ def CheckExistence(conn, id):
     crsr = conn.cursor()
     param_query = "SELECT * FROM customs WHERE id = ?;"
     crsr.execute(param_query, [id])
-    res = cursor.fetchone()
+    res = crsr.fetchone()
     crsr.close()
     if res is None:
         return 0

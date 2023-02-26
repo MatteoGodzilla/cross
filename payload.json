@@ -14,14 +14,14 @@
         }
     ],
     "Difficulties":{
-        "General":69,
-        "Tap":89,
-        "Crossfade":40,
-        "Scratch":180
+        "General":0,
+        "Tap":1,
+        "Crossfade":2,
+        "Scratch":5
     },
     "Charts":{
-        "Beginner":false,
-        "Easy":false,
+        "Beginner":true,
+        "Easy":true,
         "Medium":false,
         "Hard":true,
         "Expert":true

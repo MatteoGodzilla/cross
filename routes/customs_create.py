@@ -3,7 +3,7 @@ from typing import Any
 from fastapi import APIRouter,Response,Header
 from common import URL_PREFIX
 from database import *
-from custom import *
+from custom import Custom,CustomToDBColumns,CustomToDBValues
 
 #customs_create = Blueprint("customs_create",__name__,url_prefix=URL_PREFIX)
 customs_create = APIRouter(prefix=URL_PREFIX)
@@ -27,8 +27,6 @@ def AddCustom(custom:Custom,authorization:str|None = Header(default=None)):
         return Response("There was an error with connecting to the database (500)", 500)
 
     # Database here is connected
-
-    print(custom)
 
     #if not request.is_json:
     #    # Convert to raise HTTPException
@@ -58,66 +56,8 @@ def AddCustom(custom:Custom,authorization:str|None = Header(default=None)):
     # we have to build a query dynamically based on the provided parameters, so that
     # the ones not specified can be defaulted by the database itself
 
-    columns = ["IDTag"]
-    data = [IDTag]
-
-    buildQuery(columns,data,"BPM",custom.BPM)
-
-    buildQuery(columns,data,"DownloadLink",custom.DownloadLink)
-
-    Songs = custom.Songs
-    if Songs != None:
-        for i in range(min(3,len(Songs))):
-            if Songs[i].name != None:
-                buildQuery(columns,data,f"Name{i+1}",Songs[i].name)
-            if Songs[i].artist != None:
-                buildQuery(columns,data,f"Artist{i+1}",Songs[i].artist)
-
-
-    buildQuery(columns,data,"Charter",custom.Charter)
-
-    buildQuery(columns,data,"Mixer",custom.Mixer)
-
-    diff = custom.Difficulties
-    if diff != None:
-        if diff.General != None:
-            buildQuery(columns,data,"DiffGeneral",diff.General)
-        if diff.Tap != None:
-            buildQuery(columns,data,"DiffTap",diff.Tap)
-        if diff.Crossfade != None:
-            buildQuery(columns,data,"DiffCrossfade",diff.Crossfade)
-        if diff.Scratch != None:
-            buildQuery(columns,data,"DiffScratch",diff.Scratch)
-
-    Charts = custom.Charts
-    if Charts != None:
-        if Charts.Beginner != None:
-            buildQuery(columns,data,"HasBeginnerChart",Charts.Beginner)
-        if Charts.Easy != None:
-            buildQuery(columns,data,"HasEasyChart",Charts.Easy)
-        if Charts.Medium != None:
-            buildQuery(columns,data,"HasMediumChart",Charts.Medium)
-        if Charts.Hard != None:
-            buildQuery(columns,data,"HasHardChart",Charts.Hard)
-        if Charts.Expert != None:
-            buildQuery(columns,data,"HasExpertChart",Charts.Expert)
-
-    DeckSpeeds = custom.DeckSpeeds
-    if DeckSpeeds != None:
-        if DeckSpeeds.Beginner != None:
-            buildQuery(columns,data,"DeckSpeedBeginner",DeckSpeeds.Beginner)
-        if DeckSpeeds.Easy != None:
-            buildQuery(columns,data,"DeckSpeedEasy",DeckSpeeds.Easy)
-        if DeckSpeeds.Medium != None:
-            buildQuery(columns,data,"DeckSpeedMedium",DeckSpeeds.Medium)
-        if DeckSpeeds.Hard != None:
-            buildQuery(columns,data,"DeckSpeedHard",DeckSpeeds.Hard)
-        if DeckSpeeds.Expert != None:
-            buildQuery(columns,data,"DeckSpeedExpert",DeckSpeeds.Expert)
-
-    buildQuery(columns,data,"VideoLink",custom.VideoLink)
-
-    buildQuery(columns,data,"Notes",custom.Notes)
+    columns = CustomToDBColumns(custom)
+    data = CustomToDBValues(custom)
 
     #f = open('./AddCustom.sql', 'r')
     ## read all of the file into script
@@ -137,7 +77,7 @@ def AddCustom(custom:Custom,authorization:str|None = Header(default=None)):
     print(res[0])
     cursor.close()
     DestroyConnection(connection)
-    return str(res[0])
+    return Response(str(res[0]),201)
 
 def stringify(list:list[Any]) -> str:
     res = ""
