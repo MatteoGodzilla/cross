@@ -54,7 +54,8 @@ def PatchCustom(id:int,authorization:str, elem:Custom|None=Header(default=None))
         param_query = "UPDATE customs SET "
         for e in keys:
             param_query += e+"= ?, "
-        param_query += ";"
+        param_query += " WHERE id = ?;"
+        values.append(id)
         cursor.execute(param_query, values)
         
         param_query = "SELECT * FROM customs WHERE id = ?"
