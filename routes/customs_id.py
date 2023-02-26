@@ -57,12 +57,13 @@ def DeleteCustom(id:int,authorization:str|None=Header(default=None)):
         param_query = "DELETE * FROM customs WHERE id = ?"
         cursor.execute(param_query, [id])
         cursor.close()
-        DestroyConnection(conn)
         
         #CheckExistence(conn, id) - Probably useful to check the deletion and the update of one custom
         if CheckExistence(conn, id) == 0:
+            DestroyConnection(conn)
             return Response("Resource deleted successfully (204)", 204)
         else:
+            DestroyConnection(conn)
             return Response("The deletion process has encountered an exception (501)", 501) #Exception 501 is temporarily
     else:
         # Convert to raise HTTPException
