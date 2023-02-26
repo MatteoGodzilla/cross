@@ -17,7 +17,7 @@ def GetCustom(id:int):
         # Convert to HTTPException
         return Response("There was an error with connecting to the database (500)",500)
 
-    #InitializeIfNeeded(conn)
+    #InitializeIfNeeded(conn) - At the moment this function call is useless.
     cursor = conn.cursor()
     param_query = "SELECT * FROM customs WHERE id = ? AND visible = 1"
     # data parameter has to be either a tuple or a list
@@ -49,7 +49,21 @@ def PatchCustom(id:int,authorization:str|None=Header(default=None)):
 @customs_id.delete("/customs/{id}")
 def DeleteCustom(id:int,authorization:str|None=Header(default=None)):
     if CheckAuth(authorization):
-        return Response("Welcome!")
+        conn = CreateConnection()
+        if conn is None:
+            #Convert to HTTPException
+            return Response("There was an error with connecting to the database (500)",500)
+        cursor = conn.cursor()
+        param_query = "DELETE * FROM customs WHERE id = ?"
+        cursor.execute(param_query, [id])
+        cursor.close()
+        DestroyConnection(conn)
+        
+        #SearchCustom(conn, id) - Probably useful to check the deletion and the update of one custom
+        if SearchCustom(conn, id) == 0:
+            return Response("Resource deleted successfully (204)", 204)
+        else:
+            return Response("The deletion process has encountered an exception (501)", 501) #Exception 501 is temporarily
     else:
         # Convert to raise HTTPException
         return Response("You have to login first",401)
