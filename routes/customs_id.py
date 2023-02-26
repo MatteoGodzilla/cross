@@ -59,8 +59,8 @@ def DeleteCustom(id:int,authorization:str|None=Header(default=None)):
         cursor.close()
         DestroyConnection(conn)
         
-        #SearchCustom(conn, id) - Probably useful to check the deletion and the update of one custom
-        if SearchCustom(conn, id) == 0:
+        #CheckExistence(conn, id) - Probably useful to check the deletion and the update of one custom
+        if CheckExistence(conn, id) == 0:
             return Response("Resource deleted successfully (204)", 204)
         else:
             return Response("The deletion process has encountered an exception (501)", 501) #Exception 501 is temporarily
