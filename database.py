@@ -80,6 +80,7 @@ def CheckAuth(authorization:str|None) -> bool:
     DestroyConnection(connection)
     return res != None
 
+#USED TO CHECK THE EXISTENCE OF ONE RESOURCE - At the moment only for customs table
 def CheckExistence(conn, id):
     crsr = conn.cursor()
     param_query = "SELECT * FROM customs WHERE id = ?;"
