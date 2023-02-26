@@ -79,3 +79,14 @@ def CheckAuth(authorization:str|None) -> bool:
     cursor.close()
     DestroyConnection(connection)
     return res != None
+
+def CheckExistence(conn, id):
+    crsr = conn.cursor()
+    param_query = "SELECT * FROM customs WHERE id = ?;"
+    crsr.execute(param_query, [id])
+    res = cursor.fetchone()
+    crsr.close()
+    if res is None:
+        return 0
+    else:
+        return 1
