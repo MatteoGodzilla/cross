@@ -106,7 +106,7 @@ def DeleteCustom(id:int,authorization:str|None=Header(default=None)):
 
         if CheckExistence(conn, id) == 0:
             DestroyConnection(conn)
-            return Response("Resource deleted successfully") #Code 204 creates errors 
+            return Response("Resource deleted successfully") #Code 204 creates errors
         else:
             DestroyConnection(conn)
             # Convert to raise HTTPException

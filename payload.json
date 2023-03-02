@@ -1,37 +1,4 @@
 {
-    "IDTag": "CUS_TEST2",
-    "BPM":124,
-    "Charter":"MatteoGodzilla",
-    "Mixer":"Dale2e1",
-    "Songs":[
-        {
-            "name":"yrsel 69420",
-            "artist":"idk"
-        },
-        {
-            "name":"i daisycut myself",
-            "artist":"ouch"
-        }
-    ],
-    "Difficulties":{
-        "General":0,
-        "Tap":1,
-        "Crossfade":2,
-        "Scratch":5
-    },
-    "Charts":{
-        "Beginner":true,
-        "Easy":true,
-        "Medium":false,
-        "Hard":true,
-        "Expert":true
-    },
-    "DeckSpeeds":{
-        "Beginner":1.0,
-        "Easy":1.0,
-        "Medium":1.0,
-        "Hard":3.9,
-        "Expert":4.3
-    },
-    "VideoLink":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    "IDTag": "CUS_TEST13",
+    "BPM":45
 }

@@ -26,18 +26,25 @@ class DeckSpeeds(BaseModel):
     Expert:float = 1.1
 
 class Custom(BaseModel):
-    IDTag:str|None
-    BPM:float|None
-    DownloadLink:str|None
-    Songs:list[Song]|None
-    Charter:str|None
-    Mixer:str|None
-    Difficulties:Difficulties|None
-    Charts:Charts|None
-    DeckSpeeds:DeckSpeeds|None
-    VideoLink:str|None
-    Notes:str|None
+    IDTag = ""
+    BPM = 120.0
+    DownloadLink:str|None = None
+    Songs:list[Song]|None = None
+    Charter:str|None = None
+    Mixer:str|None = None
+    Difficulties = Difficulties()
+    Charts = Charts()
+    DeckSpeeds = DeckSpeeds()
+    VideoLink:str|None = None
+    Notes:str|None = None
 
+class Megamix(BaseModel):
+    Name = ""
+    Customs:list[Custom] = []
+    DownloadLink = ""
+    VideoPreview = ""
+
+# info is coming only from the table `customs`
 def CreateCustom(info:list[str]):
     custom = Custom()
     custom.IDTag=info[1]
@@ -79,6 +86,13 @@ def CreateCustom(info:list[str]):
     custom.Notes = info[27]
 
     return custom
+
+# info is only coming from the table `megamix`
+def CreateMegamix(info:list[str]):
+    megamix = Megamix()
+    megamix.Name = info[1]
+    # we cannot fill megamix.Customs just yet, we need another api request
+    return megamix
 
 def CustomToDBColumns(custom:Custom) -> list[str]:
     columns = []
