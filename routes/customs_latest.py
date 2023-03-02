@@ -8,7 +8,7 @@ customs_latest = APIRouter(prefix=URL_PREFIX)
 # GET /api/v1/customs/latest/<count>
 # returns an array containing ids of the most recent <count> customs in the database
 @customs_latest.get("/customs/latest/{count}")
-def GetLasts(count:int):
+def GetLasts(count:int) -> list[int]:
     if count < 0:
         count *= -1
 

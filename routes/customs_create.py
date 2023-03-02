@@ -12,7 +12,7 @@ customs_create = APIRouter(prefix=URL_PREFIX)
 # Attempts to add a new custom. Values are encoded into the html as json in the same format as "Custom" class
 # Request must have an Authorization code attached to the header
 @customs_create.post("/customs/create")
-def AddCustom(custom:Custom,authorization:str|None = Header(default=None)):
+def AddCustom(custom:Custom,authorization:str|None = Header(default=None)) -> int:
     if authorization == None:
         # Convert to raise HTTPException
         return Response("No Authorization code was specified (400)", 400)
@@ -93,8 +93,3 @@ def stringify(list:list[Any]) -> str:
         if i != len(list) - 1:
             res += ","
     return res
-
-def buildQuery(columns:list[str],data:list[Any],col_name,obj):
-    if obj != None:
-        columns.append(col_name)
-        data.append(obj)

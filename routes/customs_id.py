@@ -9,7 +9,7 @@ customs_id = APIRouter(prefix=URL_PREFIX)
 # Returns a "Custom" class instance, encoded in json
 # <id> refers to the database key in the db, not IDTag
 @customs_id.get("/customs/{id}")
-def GetCustom(id:int):
+def GetCustom(id:int) -> Custom:
     if id < 0:
         id *= -1
     conn = CreateConnection()
