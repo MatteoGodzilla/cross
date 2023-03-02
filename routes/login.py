@@ -9,7 +9,7 @@ from datetime import datetime,timezone,timedelta
 login = APIRouter(prefix=URL_PREFIX)
 
 @login.get("/login")
-def basicLogin(authorization:str|None = Header(default=None)) -> str:
+def BasicLogin(authorization:str|None = Header(default=None)) -> str:
     # The user will send username and password as a basic Authorization header
     if authorization == None:
         return Response("No Authorization header was found",401)

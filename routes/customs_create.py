@@ -1,7 +1,7 @@
 from typing import Any
 #from flask import Blueprint,request, Response
 from fastapi import APIRouter,Response,Header
-from common import URL_PREFIX
+from common import URL_PREFIX,CUSTOMS_TAG
 from database import *
 from custom import Custom,CustomToDBColumns,CustomToDBValues
 
@@ -11,7 +11,7 @@ customs_create = APIRouter(prefix=URL_PREFIX)
 # POST /api/v1/customs/create
 # Attempts to add a new custom. Values are encoded into the html as json in the same format as "Custom" class
 # Request must have an Authorization code attached to the header
-@customs_create.post("/customs/create")
+@customs_create.post("/customs/create",tags=CUSTOMS_TAG)
 def AddCustom(custom:Custom,authorization:str|None = Header(default=None)) -> int:
     if authorization == None:
         # Convert to raise HTTPException

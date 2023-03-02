@@ -1,14 +1,14 @@
 from fastapi import APIRouter,Response,Header
 from database import *
 from custom import CreateCustom,Custom,CustomToDBValues,CustomToDBColumns
-from common import URL_PREFIX
+from common import URL_PREFIX,CUSTOMS_TAG
 
 customs_id = APIRouter(prefix=URL_PREFIX)
 
 # GET /api/v1/customs/<id>
 # Returns a "Custom" class instance, encoded in json
 # <id> refers to the database key in the db, not IDTag
-@customs_id.get("/customs/{id}")
+@customs_id.get("/customs/{id}",tags=CUSTOMS_TAG)
 def GetCustom(id:int) -> Custom:
     if id < 0:
         id *= -1
@@ -35,7 +35,7 @@ def GetCustom(id:int) -> Custom:
 # PATCH /api/v1/customs/<id>
 # Attempts to change a custom already in the database
 # Request must have an Authorization code attached to the header
-@customs_id.patch("/customs/{id}")
+@customs_id.patch("/customs/{id}",tags=CUSTOMS_TAG)
 def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)):
     if CheckAuth(authorization):
         conn = CreateConnection()
@@ -91,7 +91,7 @@ def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)
 # DELETE /api/v1/customs/<id>
 # Attempts to delete a custom already in the database
 # Request must have an Authorization code attached to the header
-@customs_id.delete("/customs/{id}")
+@customs_id.delete("/customs/{id}",tags=CUSTOMS_TAG)
 def DeleteCustom(id:int,authorization:str|None=Header(default=None)):
     if CheckAuth(authorization):
         conn = CreateConnection()
@@ -106,11 +106,11 @@ def DeleteCustom(id:int,authorization:str|None=Header(default=None)):
 
         if CheckExistence(conn, id) == 0:
             DestroyConnection(conn)
-            return Response("Resource deleted successfully") #Code 204 creates errors
+            return Response(status_code=204)
         else:
             DestroyConnection(conn)
             # Convert to raise HTTPException
-            return Response("The deletion process has encountered an exception (501)", 501) #Exception 501 is temporarily
+            return Response("The deletion process has encountered an exception (500)", 500)
     else:
         # Convert to raise HTTPException
         return Response("You have to login first",401)
