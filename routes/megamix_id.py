@@ -46,9 +46,9 @@ def GetMegamix(id:int) -> Megamix:
     return megamix
 
 @megamix_id.patch("/megamix/{id}",tags=MEGAMIX_TAG)
-def PatchMegamix(id):
+def PatchMegamix(id) -> Megamix:
     return Response("NOT IMPLEMENTED",501)
 
-@megamix_id.delete("/megamix/{id}",tags=MEGAMIX_TAG)
+@megamix_id.delete("/megamix/{id}",tags=MEGAMIX_TAG,status_code=204)
 def DeleteMegamix(id):
     return Response("NOT IMPLEMENTED",501)

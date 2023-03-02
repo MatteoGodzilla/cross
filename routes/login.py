@@ -39,7 +39,6 @@ def BasicLogin(authorization:str|None = Header(default=None)) -> str:
         # Convert to raise HTTPException
         return Response("There was an error with the database (username not found)",500)
     userID, db_password = res
-    cursor.close()
 
     if db_password == None:
         # Username is wrong
@@ -47,16 +46,13 @@ def BasicLogin(authorization:str|None = Header(default=None)) -> str:
 
     if bcrypt.checkpw(clear_password.encode(),str(db_password).encode()):
         # Generate token
-        cursor = conn.cursor()
 
         code = str(uuid.uuid4())
         # By default the token provided works for up to 2 hours
         # 2 hours = 2*60*60
         now = datetime.now(timezone.utc).replace(microsecond=0)
         expires = now + timedelta(hours=2)
-        #print(userID)
-        #print(code)
-        #print(expires)
+
         sql = "INSERT INTO auth (`User ID`,`Code`,`Expires`) VALUES (?,?,?);"
         cursor.execute(sql,[userID,code,expires])
         cursor.close()

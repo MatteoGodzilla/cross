@@ -1,25 +1,19 @@
 from typing import Any
-#from flask import Blueprint,request, Response
 from fastapi import APIRouter,Response,Header
 from common import URL_PREFIX,CUSTOMS_TAG
 from database import *
 from custom import Custom,CustomToDBColumns,CustomToDBValues
 
-#customs_create = Blueprint("customs_create",__name__,url_prefix=URL_PREFIX)
 custom_create = APIRouter(prefix=URL_PREFIX)
 
 # POST /api/v1/custom/create
 # Attempts to add a new custom. Values are encoded into the html as json in the same format as "Custom" class
 # Request must have an Authorization code attached to the header
-@custom_create.post("/custom/create",tags=CUSTOMS_TAG)
+@custom_create.post("/custom/create",tags=CUSTOMS_TAG,status_code=201)
 def AddCustom(custom:Custom,authorization:str|None = Header(default=None)) -> int:
     if authorization == None:
         # Convert to raise HTTPException
         return Response("No Authorization code was specified (400)", 400)
-
-    #if not CheckAuth(authorization):
-    #    # Convert to raise HTTPException
-    #    return Response("Invalid Authorization code (401)", 401)
 
     connection = CreateConnection()
     if connection is None:
@@ -28,11 +22,6 @@ def AddCustom(custom:Custom,authorization:str|None = Header(default=None)) -> in
 
     # Database here is connected
 
-    #if not request.is_json:
-    #    # Convert to raise HTTPException
-    #    return Response("Payload provided is not a valid json object. Make sure to set the Content-Type to 'application/json' (400)",400)
-
-    # Payload is a valid json object
     IDTag = custom.IDTag
 
     if IDTag == None:
@@ -44,7 +33,6 @@ def AddCustom(custom:Custom,authorization:str|None = Header(default=None)) -> in
     query = "SELECT IDTag FROM customs WHERE IDTag = ?"
     cursor.execute(query,[IDTag])
     res = cursor.fetchone()
-    cursor.close()
 
     if res != None:
         # Convert to raise HTTPException
@@ -59,30 +47,21 @@ def AddCustom(custom:Custom,authorization:str|None = Header(default=None)) -> in
     columns = CustomToDBColumns(custom)
     data = CustomToDBValues(custom)
 
-    #f = open('./AddCustom.sql', 'r')
-    ## read all of the file into script
-    #query = "".join(f.readlines())
-
     query = f"INSERT INTO customs ({','.join(columns)}) VALUES ({stringify(data)});"
-
-    cursor = connection.cursor()
     cursor.execute(query,data)
-    connection.commit()
-    cursor.close()
 
     lastID = "SELECT LAST_INSERT_ID();"
-    cursor = connection.cursor()
     cursor.execute(lastID)
     res = cursor.fetchone()
-    print(res[0])
+
     cursor.close()
+    connection.commit()
     DestroyConnection(connection)
-    return Response(str(res[0]),201)
+    return Response(str(res[0]))
 
 def stringify(list:list[Any]) -> str:
     res = ""
-    for i in range(len(list)):
-        item = list[i]
+    for i,item in enumerate(list):
         # write actual value
         if item != None:
             if type(item) == str:

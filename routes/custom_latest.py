@@ -8,8 +8,7 @@ custom_latest = APIRouter(prefix=URL_PREFIX)
 # returns an array containing ids of the most recent <count> customs in the database
 @custom_latest.get("/custom/latest/{count}",tags=CUSTOMS_TAG)
 def GetLasts(count:int) -> list[int]:
-    if count < 0:
-        count *= -1
+    count = abs(count)
 
     conn = CreateConnection()
     if conn is None:

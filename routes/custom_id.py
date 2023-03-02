@@ -10,14 +10,12 @@ custom_id = APIRouter(prefix=URL_PREFIX)
 # <id> refers to the database key in the db, not IDTag
 @custom_id.get("/custom/{id}",tags=CUSTOMS_TAG)
 def GetCustom(id:int) -> Custom:
-    if id < 0:
-        id *= -1
+    id = abs(id)
     conn = CreateConnection()
     if conn is None:
         # Convert to raise HTTPException
         return Response("There was an error with connecting to the database (500)",500)
 
-    # InitializeIfNeeded(conn) - At the moment this function call is useless.
     cursor = conn.cursor()
     param_query = "SELECT * FROM customs WHERE id = ? AND visible = 1;"
     # data parameter has to be either a tuple or a list
@@ -36,7 +34,7 @@ def GetCustom(id:int) -> Custom:
 # Attempts to change a custom already in the database
 # Request must have an Authorization code attached to the header
 @custom_id.patch("/custom/{id}",tags=CUSTOMS_TAG)
-def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)):
+def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)) -> Custom:
     if CheckAuth(authorization):
         conn = CreateConnection()
         if conn is None:
@@ -57,11 +55,6 @@ def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)
         columns = CustomToDBColumns(elem)
         data = CustomToDBValues(elem)
 
-        #new_data = json.loads(elem.json())
-        #keys = new_data.keys()
-        #values = list(new_data.values())
-        #print(values)
-
         param_query = "UPDATE customs SET "
         for i,e in enumerate(columns):
             e = columns[i]
@@ -78,11 +71,13 @@ def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)
         new = cursor.fetchone()
 
         cursor.close()
-        conn.commit()
-        DestroyConnection(conn)
         if old == new:
+            conn.rollback()
+            DestroyConnection(conn)
             return Response("An error as occured (500)", 500)
         else:
+            conn.commit()
+            DestroyConnection(conn)
             return Response("Resources updated successfully (200)", 200)
     else:
         # Convert to raise HTTPException
@@ -91,7 +86,7 @@ def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)
 # DELETE /api/v1/custom/<id>
 # Attempts to delete a custom already in the database
 # Request must have an Authorization code attached to the header
-@custom_id.delete("/custom/{id}",tags=CUSTOMS_TAG)
+@custom_id.delete("/custom/{id}",tags=CUSTOMS_TAG,status_code=204)
 def DeleteCustom(id:int,authorization:str|None=Header(default=None)):
     if CheckAuth(authorization):
         conn = CreateConnection()
@@ -105,9 +100,11 @@ def DeleteCustom(id:int,authorization:str|None=Header(default=None)):
         cursor.close()
 
         if CheckExistence(conn, id) == 0:
+            conn.commit()
             DestroyConnection(conn)
             return Response(status_code=204)
         else:
+            conn.rollback()
             DestroyConnection(conn)
             # Convert to raise HTTPException
             return Response("The deletion process has encountered an exception (500)", 500)
