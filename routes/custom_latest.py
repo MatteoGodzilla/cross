@@ -2,12 +2,11 @@ from database import *
 from fastapi import APIRouter, Response
 from common import URL_PREFIX,CUSTOMS_TAG
 
-#customs_latest = Blueprint("customs_latest",__name__,url_prefix=URL_PREFIX)
-customs_latest = APIRouter(prefix=URL_PREFIX)
+custom_latest = APIRouter(prefix=URL_PREFIX)
 
-# GET /api/v1/customs/latest/<count>
+# GET /api/v1/custom/latest/<count>
 # returns an array containing ids of the most recent <count> customs in the database
-@customs_latest.get("/customs/latest/{count}",tags=CUSTOMS_TAG)
+@custom_latest.get("/custom/latest/{count}",tags=CUSTOMS_TAG)
 def GetLasts(count:int) -> list[int]:
     if count < 0:
         count *= -1

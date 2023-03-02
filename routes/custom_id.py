@@ -3,12 +3,12 @@ from database import *
 from custom import CreateCustom,Custom,CustomToDBValues,CustomToDBColumns
 from common import URL_PREFIX,CUSTOMS_TAG
 
-customs_id = APIRouter(prefix=URL_PREFIX)
+custom_id = APIRouter(prefix=URL_PREFIX)
 
-# GET /api/v1/customs/<id>
+# GET /api/v1/custom/<id>
 # Returns a "Custom" class instance, encoded in json
 # <id> refers to the database key in the db, not IDTag
-@customs_id.get("/customs/{id}",tags=CUSTOMS_TAG)
+@custom_id.get("/custom/{id}",tags=CUSTOMS_TAG)
 def GetCustom(id:int) -> Custom:
     if id < 0:
         id *= -1
@@ -32,10 +32,10 @@ def GetCustom(id:int) -> Custom:
         # Convert to raise HTTPException
         return Response("There was an error trying to get custom {}.".format(id), 500)
 
-# PATCH /api/v1/customs/<id>
+# PATCH /api/v1/custom/<id>
 # Attempts to change a custom already in the database
 # Request must have an Authorization code attached to the header
-@customs_id.patch("/customs/{id}",tags=CUSTOMS_TAG)
+@custom_id.patch("/custom/{id}",tags=CUSTOMS_TAG)
 def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)):
     if CheckAuth(authorization):
         conn = CreateConnection()
@@ -88,10 +88,10 @@ def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)
         # Convert to raise HTTPException
         return Response("You have to login first",401)
 
-# DELETE /api/v1/customs/<id>
+# DELETE /api/v1/custom/<id>
 # Attempts to delete a custom already in the database
 # Request must have an Authorization code attached to the header
-@customs_id.delete("/customs/{id}",tags=CUSTOMS_TAG)
+@custom_id.delete("/custom/{id}",tags=CUSTOMS_TAG)
 def DeleteCustom(id:int,authorization:str|None=Header(default=None)):
     if CheckAuth(authorization):
         conn = CreateConnection()

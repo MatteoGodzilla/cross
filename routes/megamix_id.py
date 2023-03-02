@@ -2,7 +2,7 @@ from fastapi import APIRouter,Response
 from database import CreateConnection,DestroyConnection
 from custom import Megamix,CreateMegamix
 from common import URL_PREFIX,MEGAMIX_TAG
-from routes.customs_id import GetCustom
+from routes.custom_id import GetCustom
 
 megamix_id = APIRouter(prefix=URL_PREFIX)
 

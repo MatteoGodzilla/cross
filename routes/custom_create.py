@@ -6,12 +6,12 @@ from database import *
 from custom import Custom,CustomToDBColumns,CustomToDBValues
 
 #customs_create = Blueprint("customs_create",__name__,url_prefix=URL_PREFIX)
-customs_create = APIRouter(prefix=URL_PREFIX)
+custom_create = APIRouter(prefix=URL_PREFIX)
 
-# POST /api/v1/customs/create
+# POST /api/v1/custom/create
 # Attempts to add a new custom. Values are encoded into the html as json in the same format as "Custom" class
 # Request must have an Authorization code attached to the header
-@customs_create.post("/customs/create",tags=CUSTOMS_TAG)
+@custom_create.post("/custom/create",tags=CUSTOMS_TAG)
 def AddCustom(custom:Custom,authorization:str|None = Header(default=None)) -> int:
     if authorization == None:
         # Convert to raise HTTPException
