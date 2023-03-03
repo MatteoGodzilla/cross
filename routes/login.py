@@ -1,12 +1,11 @@
 from fastapi import APIRouter, Response,Header,HTTPException
-from common import URL_PREFIX
 import base64
 import bcrypt
 import uuid
 from database import *
 from datetime import datetime,timezone,timedelta
 
-login = APIRouter(prefix=URL_PREFIX)
+login = APIRouter()
 
 @login.get("/login")
 def BasicLogin(authorization:str|None = Header(default=None)) -> str:

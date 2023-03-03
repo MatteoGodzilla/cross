@@ -1,14 +1,14 @@
 from fastapi import APIRouter,Response,Header
 from database import *
 from custom import CreateCustom,Custom,CustomToDBValues,CustomToDBColumns
-from common import URL_PREFIX,CUSTOMS_TAG
+from common import CUSTOMS_TAG
 
-custom_id = APIRouter(prefix=URL_PREFIX)
+custom_id = APIRouter(prefix="/custom")
 
 # GET /api/v1/custom/<id>
 # Returns a "Custom" class instance, encoded in json
 # <id> refers to the database key in the db, not IDTag
-@custom_id.get("/custom/{id}",tags=CUSTOMS_TAG)
+@custom_id.get("/{id}",tags=CUSTOMS_TAG)
 def GetCustom(id:int) -> Custom:
     id = abs(id)
     conn = CreateConnection()
@@ -33,7 +33,7 @@ def GetCustom(id:int) -> Custom:
 # PATCH /api/v1/custom/<id>
 # Attempts to change a custom already in the database
 # Request must have an Authorization code attached to the header
-@custom_id.patch("/custom/{id}",tags=CUSTOMS_TAG)
+@custom_id.patch("/{id}",tags=CUSTOMS_TAG)
 def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)) -> Custom:
     if CheckAuth(authorization):
         conn = CreateConnection()
@@ -86,7 +86,7 @@ def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)
 # DELETE /api/v1/custom/<id>
 # Attempts to delete a custom already in the database
 # Request must have an Authorization code attached to the header
-@custom_id.delete("/custom/{id}",tags=CUSTOMS_TAG,status_code=204)
+@custom_id.delete("/{id}",tags=CUSTOMS_TAG,status_code=204)
 def DeleteCustom(id:int,authorization:str|None=Header(default=None)):
     if CheckAuth(authorization):
         conn = CreateConnection()

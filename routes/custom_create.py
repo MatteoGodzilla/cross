@@ -1,10 +1,10 @@
 from typing import Any
 from fastapi import APIRouter,Response,Header
-from common import URL_PREFIX,CUSTOMS_TAG
+from common import CUSTOMS_TAG
 from database import *
 from custom import Custom,CustomToDBColumns,CustomToDBValues
 
-custom_create = APIRouter(prefix=URL_PREFIX)
+custom_create = APIRouter()
 
 # POST /api/v1/custom/create
 # Attempts to add a new custom. Values are encoded into the html as json in the same format as "Custom" class

@@ -1,12 +1,12 @@
 from fastapi import APIRouter,Response
 from database import CreateConnection,DestroyConnection
 from custom import Megamix,CreateMegamix
-from common import URL_PREFIX,MEGAMIX_TAG
+from common import MEGAMIX_TAG
 from routes.custom_id import GetCustom
 
-megamix_id = APIRouter(prefix=URL_PREFIX)
+megamix_id = APIRouter(prefix="/megamix")
 
-@megamix_id.get("/megamix/{id}",tags=MEGAMIX_TAG)
+@megamix_id.get("/{id}",tags=MEGAMIX_TAG)
 def GetMegamix(id:int) -> Megamix:
     if id < 0:
         id *= -1
@@ -45,10 +45,10 @@ def GetMegamix(id:int) -> Megamix:
     DestroyConnection(conn)
     return megamix
 
-@megamix_id.patch("/megamix/{id}",tags=MEGAMIX_TAG)
+@megamix_id.patch("/{id}",tags=MEGAMIX_TAG)
 def PatchMegamix(id) -> Megamix:
     return Response("NOT IMPLEMENTED",501)
 
-@megamix_id.delete("/megamix/{id}",tags=MEGAMIX_TAG,status_code=204)
+@megamix_id.delete("/{id}",tags=MEGAMIX_TAG,status_code=204)
 def DeleteMegamix(id):
     return Response("NOT IMPLEMENTED",501)
