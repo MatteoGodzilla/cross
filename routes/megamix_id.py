@@ -97,10 +97,8 @@ def DeleteMegamix(id, authorization:str|None=Header(default=None)):
             # Convert to raise HTTPException
             return Response("There was an error with connecting to the database (500)",500)
         cursor = conn.cursor()
-        dependencies_query = 'DELETE * FROM megamix-customs WHERE megamixID = ?;'
         param_query = 'DELETE * FROM megamix WHERE id = ?;'
         checking_query = 'SELECT * FROM megamix-customs WHERE megamixID = ?'
-        cursor.execute(dependencies_query, [id])
         cursor.execute(param_query, [id])
         cursor.execute(checking_query, [id])
         res = cursor.fetchone()
