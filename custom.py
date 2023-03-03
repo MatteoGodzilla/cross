@@ -91,6 +91,8 @@ def CreateCustom(info:list[str]):
 def CreateMegamix(info:list[str]):
     megamix = Megamix()
     megamix.Name = info[1]
+    megamix.DownloadLink = info[2]
+    megamix.VideoPreview = info[3]
     # we cannot fill megamix.Customs just yet, we need another api request
     return megamix
 
