@@ -52,13 +52,64 @@ def GetMegamix(id:int) -> Megamix:
 # Request must have an Authorization code attached to the header
 # Returns a Megamix instance with all of the fields that are currently saved in the db
 @megamix_id.patch("/{id}")
-def PatchMegamix(id) -> Megamix:
-    return Response("NOT IMPLEMENTED",501)
+def PatchMegamix(id, mgmx:Megamix, authorization:str|None=Header(default=None)) -> Megamix:
+    if CheckAuth(authorization):
+        if id < 0:
+            id *= -1
+        conn = CreateConnection()
+        if conn is None:
+            # Convert to raise HTTPException
+            return Response("There was an error with connecting to the database (500)",500)
+        cursor = conn.cursor()
+        values = []
+        columns = []
+        query = "UPDATE megamix SET "
+
+        if mgmx.Name is not None:
+            query += "Name = "+ mgmx.Name
+        if mgmx.DownloadLink is not None:
+            query += "DownloadLink = "+ mgmx.DownloadLink
+        if mgmx.VideoPreview is not None:
+            query+= "VideoPreview = "+ mgmx.VideoPreview
+
+        query += "WHERE id = ?;"
+        cursor.execute(query, [id])
+        cursor.close()
+        DestroyConnection(conn)
+
+        return GetMegamix(id)
+
+    else :
+        # Convert to raise HTTPException
+        return Response("You have to login first",401
 
 # DELETE /api/v1/megamix/<id>
 # Attempts to delete a megamix already in the database
 # Request must have an Authorization code attached to the header
 # Returns 204 no content on success
 @megamix_id.delete("/{id}")
-def DeleteMegamix(id):
-    return Response("NOT IMPLEMENTED",501)
+def DeleteMegamix(id, authorization:str|None=Header(default=None)):
+    if CheckAuth(authorization):
+        if id < 0:
+            id *= -1
+        conn = CreateConnection()
+        if conn is None:
+            # Convert to raise HTTPException
+            return Response("There was an error with connecting to the database (500)",500)
+        cursor = conn.cursor()
+        depencies_query = 'DELETE * FROM megamix-customs WHERE megamixID = ?;'
+        param_query = 'DELETE * FROM megamix WHERE id = ?;'
+        checking_query = 'SELECT * FROM megamix-customs WHERE megamixID = ?'
+        cursor.execute(dependecies_query, [id])
+        cursor.execute(param_query, [id])
+        cursor.execute(checking_query, [id])
+        res = cursor.fetchone()
+        cursor.close()
+        DestroyConnection(conn)
+        if res is None
+            return Response(204)
+        else
+            return Response("NOT IMPLEMENTED",501)
+    else :
+        # Convert to raise HTTPException
+        return Response("You have to login first",401)
