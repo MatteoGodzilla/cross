@@ -81,7 +81,7 @@ def PatchMegamix(id, mgmx:Megamix, authorization:str|None=Header(default=None)) 
 
     else :
         # Convert to raise HTTPException
-        return Response("You have to login first",401
+        return Response("You have to login first",401) 
 
 # DELETE /api/v1/megamix/<id>
 # Attempts to delete a megamix already in the database
