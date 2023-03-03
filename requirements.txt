@@ -1,5 +1,5 @@
 fastapi
 uvicorn
 mariadb
-dotenv
+python-dotenv
 bcrypt
