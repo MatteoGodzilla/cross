@@ -43,6 +43,10 @@ def BasicLogin(authorization:str|None = Header(default=None)) -> str:
         # Username is wrong
         return str(False)
 
+    # Clear expired tokens from auth table
+    sql = "DELETE FROM auth where Expires < Now();"
+    cursor.execute(sql)
+
     if bcrypt.checkpw(clear_password.encode(),str(db_password).encode()):
         # Generate token
 
