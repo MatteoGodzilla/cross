@@ -1,5 +1,5 @@
 from fastapi import APIRouter,Response, Header
-from database import CreateConnection,DestroyConnection
+from database import CreateConnection,Destroy Connection,CheckAuth
 from custom import Megamix,CreateMegamix
 from routes.custom_id import GetCustom
 
