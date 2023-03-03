@@ -1,5 +1,5 @@
 from fastapi import APIRouter,Response, Header
-from database import CreateConnection,Destroy Connection,CheckAuth
+from database import CreateConnection,DestroyConnection,CheckAuth
 from custom import Megamix,CreateMegamix
 from routes.custom_id import GetCustom
 
@@ -97,18 +97,18 @@ def DeleteMegamix(id, authorization:str|None=Header(default=None)):
             # Convert to raise HTTPException
             return Response("There was an error with connecting to the database (500)",500)
         cursor = conn.cursor()
-        depencies_query = 'DELETE * FROM megamix-customs WHERE megamixID = ?;'
+        dependencies_query = 'DELETE * FROM megamix-customs WHERE megamixID = ?;'
         param_query = 'DELETE * FROM megamix WHERE id = ?;'
         checking_query = 'SELECT * FROM megamix-customs WHERE megamixID = ?'
-        cursor.execute(dependecies_query, [id])
+        cursor.execute(dependencies_query, [id])
         cursor.execute(param_query, [id])
         cursor.execute(checking_query, [id])
         res = cursor.fetchone()
         cursor.close()
         DestroyConnection(conn)
-        if res is None
+        if res is None:
             return Response(204)
-        else
+        else:
             return Response("NOT IMPLEMENTED",501)
     else :
         # Convert to raise HTTPException
