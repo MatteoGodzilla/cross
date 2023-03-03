@@ -65,11 +65,11 @@ def PatchMegamix(id, mgmx:Megamix, authorization:str|None=Header(default=None)) 
         columns = []
         query = "UPDATE megamix SET "
 
-        if mgmx.Name is not None:
+        if mgmx.Name != "":
             query += "Name = "+ mgmx.Name
-        if mgmx.DownloadLink is not None:
+        if mgmx.DownloadLink != "":
             query += "DownloadLink = "+ mgmx.DownloadLink
-        if mgmx.VideoPreview is not None:
+        if mgmx.VideoPreview != "":
             query+= "VideoPreview = "+ mgmx.VideoPreview
 
         query += "WHERE id = ?;"
