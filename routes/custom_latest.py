@@ -1,12 +1,11 @@
 from database import *
 from fastapi import APIRouter, Response
-from common import CUSTOMS_TAG
 
 custom_latest = APIRouter()
 
 # GET /api/v1/custom/latest/<count>
 # returns an array containing ids of the most recent <count> customs in the database
-@custom_latest.get("/custom/latest/{count}",tags=CUSTOMS_TAG)
+@custom_latest.get("/custom/latest/{count}")
 def GetLasts(count:int) -> list[int]:
     count = abs(count)
 

@@ -1,14 +1,13 @@
 from fastapi import APIRouter,Response,Header
 from database import *
 from custom import CreateCustom,Custom,CustomToDBValues,CustomToDBColumns
-from common import CUSTOMS_TAG
 
 custom_id = APIRouter(prefix="/custom")
 
 # GET /api/v1/custom/<id>
 # Returns a "Custom" class instance, encoded in json
 # <id> refers to the database key in the db, not IDTag
-@custom_id.get("/{id}",tags=CUSTOMS_TAG)
+@custom_id.get("/{id}")
 def GetCustom(id:int) -> Custom:
     id = abs(id)
     conn = CreateConnection()
@@ -33,7 +32,8 @@ def GetCustom(id:int) -> Custom:
 # PATCH /api/v1/custom/<id>
 # Attempts to change a custom already in the database
 # Request must have an Authorization code attached to the header
-@custom_id.patch("/{id}",tags=CUSTOMS_TAG)
+# Returns a Custom instance with all of the fields that are currently saved in the db
+@custom_id.patch("/{id}")
 def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)) -> Custom:
     if CheckAuth(authorization):
         conn = CreateConnection()
@@ -52,33 +52,34 @@ def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)
 
         # The specified id in the url exists
 
-        columns = CustomToDBColumns(elem)
-        data = CustomToDBValues(elem)
+        try:
+            columns = CustomToDBColumns(elem)
+            data = CustomToDBValues(elem)
 
-        param_query = "UPDATE customs SET "
-        for i,e in enumerate(columns):
-            e = columns[i]
-            param_query += e + " = ?"
-            if i < len(columns)-1:
-                param_query += ", "
-        param_query += " WHERE id = ?;"
+            param_query = "UPDATE customs SET "
+            for i,e in enumerate(columns):
+                e = columns[i]
+                param_query += e + " = ?"
+                if i < len(columns)-1:
+                    param_query += ", "
+            param_query += " WHERE id = ?;"
 
-        data.append(id)
-        cursor.execute(param_query, data)
+            data.append(id)
+            cursor.execute(param_query, data)
 
-        param_query = "SELECT * FROM customs WHERE id = ?"
-        cursor.execute(param_query, [id])
-        new = cursor.fetchone()
+            param_query = "SELECT * FROM customs WHERE id = ?"
+            cursor.execute(param_query, [id])
+            new = cursor.fetchone()
 
-        cursor.close()
-        if old == new:
-            conn.rollback()
-            DestroyConnection(conn)
-            return Response("An error as occured (500)", 500)
-        else:
+            cursor.close()
             conn.commit()
             DestroyConnection(conn)
-            return Response("Resources updated successfully (200)", 200)
+
+            return new
+        except:
+            conn.rollback()
+            DestroyConnection(conn)
+            return Response("An error has occurred(500)",500)
     else:
         # Convert to raise HTTPException
         return Response("You have to login first",401)
@@ -86,7 +87,8 @@ def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)
 # DELETE /api/v1/custom/<id>
 # Attempts to delete a custom already in the database
 # Request must have an Authorization code attached to the header
-@custom_id.delete("/{id}",tags=CUSTOMS_TAG,status_code=204)
+# Returns 204 no content on success
+@custom_id.delete("/{id}")
 def DeleteCustom(id:int,authorization:str|None=Header(default=None)):
     if CheckAuth(authorization):
         conn = CreateConnection()

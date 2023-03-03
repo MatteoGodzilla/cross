@@ -1,12 +1,14 @@
 from fastapi import APIRouter,Response
 from database import CreateConnection,DestroyConnection
 from custom import Megamix,CreateMegamix
-from common import MEGAMIX_TAG
 from routes.custom_id import GetCustom
 
 megamix_id = APIRouter(prefix="/megamix")
 
-@megamix_id.get("/{id}",tags=MEGAMIX_TAG)
+# GET /api/v1/megamix/<id>
+# Returns a "Megamix" class instance, encoded in json
+# <id> refers to the database key in the db
+@megamix_id.get("/{id}")
 def GetMegamix(id:int) -> Megamix:
     if id < 0:
         id *= -1
@@ -45,10 +47,18 @@ def GetMegamix(id:int) -> Megamix:
     DestroyConnection(conn)
     return megamix
 
-@megamix_id.patch("/{id}",tags=MEGAMIX_TAG)
+# PATCH /api/v1/megamix/<id>
+# Attempts to change a megamix already in the database
+# Request must have an Authorization code attached to the header
+# Returns a Megamix instance with all of the fields that are currently saved in the db
+@megamix_id.patch("/{id}")
 def PatchMegamix(id) -> Megamix:
     return Response("NOT IMPLEMENTED",501)
 
-@megamix_id.delete("/{id}",tags=MEGAMIX_TAG,status_code=204)
+# DELETE /api/v1/megamix/<id>
+# Attempts to delete a megamix already in the database
+# Request must have an Authorization code attached to the header
+# Returns 204 no content on success
+@megamix_id.delete("/{id}")
 def DeleteMegamix(id):
     return Response("NOT IMPLEMENTED",501)

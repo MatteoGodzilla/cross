@@ -1,6 +1,5 @@
 from typing import Any
 from fastapi import APIRouter,Response,Header
-from common import CUSTOMS_TAG
 from database import *
 from custom import Custom,CustomToDBColumns,CustomToDBValues
 
@@ -9,7 +8,7 @@ custom_create = APIRouter()
 # POST /api/v1/custom/create
 # Attempts to add a new custom. Values are encoded into the html as json in the same format as "Custom" class
 # Request must have an Authorization code attached to the header
-@custom_create.post("/custom/create",tags=CUSTOMS_TAG,status_code=201)
+@custom_create.post("/custom/create")
 def AddCustom(custom:Custom,authorization:str|None = Header(default=None)) -> int:
     if authorization == None:
         # Convert to raise HTTPException
@@ -57,7 +56,7 @@ def AddCustom(custom:Custom,authorization:str|None = Header(default=None)) -> in
     cursor.close()
     connection.commit()
     DestroyConnection(connection)
-    return Response(str(res[0]))
+    return Response(str(res[0]),201)
 
 def stringify(list:list[Any]) -> str:
     res = ""
