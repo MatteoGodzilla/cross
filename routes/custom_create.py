@@ -58,6 +58,8 @@ def AddCustom(custom:Custom,authorization:str|None = Header(default=None)) -> in
     DestroyConnection(connection)
     return Response(str(res[0]),201)
 
+# TODO: this function is duplicated into megamix create
+# find a better position to put it
 def stringify(list:list[Any]) -> str:
     res = ""
     for i,item in enumerate(list):

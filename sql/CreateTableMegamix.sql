@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS `megamix` (
     `Name` varchar(50) DEFAULT NULL,
     `DownloadLink` longtext DEFAULT NULL,
     `VideoPreview` longtext DEFAULT NULL,
+    `lastUpdate` TIMESTAMP NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
     PRIMARY KEY(`id`)
 );
 

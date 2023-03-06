@@ -16,7 +16,7 @@ def GetLasts(count:int) -> list[int]:
 
     #InitializeIfNeeded(conn)
     cursor = conn.cursor()
-    param_query = "SELECT id FROM customs ORDER BY lastUpdate LIMIT ?"
+    param_query = "SELECT id FROM customs ORDER BY lastUpdate DESC LIMIT ?"
     cursor.execute(param_query, [count])
     res=cursor.fetchall()
     cursor.close()

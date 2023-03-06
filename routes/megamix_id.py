@@ -1,7 +1,6 @@
 from fastapi import APIRouter,Response, Header
 from database import CreateConnection,DestroyConnection,CheckAuth
-from custom import Megamix,CreateMegamix
-from routes.custom_id import GetCustom
+from megamix import Megamix,CreateMegamix
 
 megamix_id = APIRouter(prefix="/megamix")
 
@@ -34,14 +33,7 @@ def GetMegamix(id:int) -> Megamix:
     cursor.execute(query,[id])
     res = cursor.fetchall()
 
-    songs = [row[0] for row in res]
-    for song in songs:
-        custom = GetCustom(song)
-        if type(custom) is Response:
-            cursor.close()
-            DestroyConnection(conn)
-            return Response(f"There was an error trying to get customs for megamix {id}.",500)
-        megamix.Customs.append(custom)
+    megamix.Customs = [int(row[0]) for row in res]
 
     cursor.close()
     DestroyConnection(conn)
@@ -81,7 +73,7 @@ def PatchMegamix(id, mgmx:Megamix, authorization:str|None=Header(default=None)) 
 
     else :
         # Convert to raise HTTPException
-        return Response("You have to login first",401) 
+        return Response("You have to login first",401)
 
 # DELETE /api/v1/megamix/<id>
 # Attempts to delete a megamix already in the database

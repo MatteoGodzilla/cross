@@ -27,7 +27,7 @@ class DeckSpeeds(BaseModel):
 
 class Custom(BaseModel):
     IDTag = ""
-    BPM = 120.0
+    BPM:float|None = 120.0
     DownloadLink:str|None = None
     Songs:list[Song]|None = None
     Charter:str|None = None
@@ -37,12 +37,6 @@ class Custom(BaseModel):
     DeckSpeeds = DeckSpeeds()
     VideoLink:str|None = None
     Notes:str|None = None
-
-class Megamix(BaseModel):
-    Name = ""
-    Customs:list[Custom] = []
-    DownloadLink = ""
-    VideoPreview = ""
 
 # info is coming only from the table `customs`
 def CreateCustom(info:list[str]):
@@ -87,19 +81,8 @@ def CreateCustom(info:list[str]):
 
     return custom
 
-# info is only coming from the table `megamix`
-def CreateMegamix(info:list[str]):
-    megamix = Megamix()
-    megamix.Name = info[1]
-    megamix.DownloadLink = info[2]
-    megamix.VideoPreview = info[3]
-    # we cannot fill megamix.Customs just yet, we need another api request
-    return megamix
-
 def CustomToDBColumns(custom:Custom) -> list[str]:
-    columns = []
-    if custom.IDTag != None:
-        columns.append("IDTag")
+    columns = ["IDTag"]
 
     if custom.BPM != None:
         columns.append("BPM")
@@ -167,9 +150,7 @@ def CustomToDBColumns(custom:Custom) -> list[str]:
     return columns
 
 def CustomToDBValues(custom:Custom) -> list[Any]:
-    values = []
-    if custom.IDTag != None:
-        values.append(custom.IDTag)
+    values = [custom.IDTag]
 
     if custom.BPM != None:
         values.append(custom.BPM)
