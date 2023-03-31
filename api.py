@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from routes.custom_create import custom_create
 from routes.custom_id import custom_id
 from routes.custom_latest import custom_latest
@@ -26,7 +28,9 @@ app.include_router(megamix_create,prefix=URL_PREFIX,tags=MEGAMIX_TAG)
 
 app.include_router(login,prefix=URL_PREFIX)
 
+app.mount("/static",StaticFiles(directory="static"))
+
 # Default route
 @app.get("/")
 def default():
-    return "Default page"
+    return RedirectResponse("/static/index.html")
