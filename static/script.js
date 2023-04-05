@@ -63,7 +63,7 @@ function MGMX_JsonToTable(json)
 	{
 		const row = document.createElement("tr");
 		const frstCol = document.createElement("td");
-		const sndCool = document.createElement("td");
+		const sndCol = document.createElement("td");
 		
 		if(c < 3)
 		{
