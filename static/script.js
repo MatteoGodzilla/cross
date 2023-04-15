@@ -49,7 +49,6 @@ function CSTM_JSONToTable(json)
 	
 	// Setting up the data structures to build the table section 
 	const table = document.createElement("table");
-	table.id = "show";
 
 	// keys => simply the description (wrote in left column) of the content in the right column
 	var keys = ["BPM:", "DownloadLink:", "Songs:", "Charter:", "Mixer:", "Difficulties:", "Charts:", "DeckSpeeds:", "VideoLink:", "Notes:"];
@@ -101,7 +100,6 @@ function MGMX_JSONToTable(json)
 	
 	// Setting up the data structures to build the table section 
 	const table = document.createElement("table");
-	table.id = "show";
 
 	// keys => simply the description (wrote in left column) of the content in the right column
 	var keys = ["Megamix name:", "Download link:", "Video preview:", "Customs:"]
