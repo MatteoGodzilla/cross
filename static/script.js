@@ -47,9 +47,6 @@ function CSTM_JSONToTable(json)
 	// From JSON to Javascript object
 	var myObj = JSON.parse(json);
 	
-	// Setting up the data structures to build the table section (FOR NOW INSIDE THE FUNCTION)
-	const table = document.createElement("table");
-	
 	// Initializing the row that will contain the JSON object
 	const row = document.createElement("tr");
 
@@ -82,19 +79,15 @@ function CSTM_JSONToTable(json)
 			row.appendChild(col);
 		}
 	}
-	table.appendChild(row);
 
 	//In the end, append the table
-	document.getElementById("show").appendChild(table);
+	document.getElementById("show").appendChild(row);
 }
 
 function MGMX_JSONToTable(json)
 {
 	// From JSON to Javascript object
 	var myObj = JSON.parse(json);
-	
-	// Setting up the data structures to build the table section (FOR NOW INSIDE THE FUNCTION)
-	const table = document.createElement("table");
 
 	// Initializing the row that will contain the JSON object
 	const row = document.createElement("tr");
@@ -128,8 +121,7 @@ function MGMX_JSONToTable(json)
 			row.appendChild(col);
 		}		
 	}
-	table.appendChild(row);
-	
-	//In the end, append the table
-	document.getElementById("show").appendChild(table);
+
+	//In the end, append the row
+	document.getElementById("show").appendChild(row);
 }
