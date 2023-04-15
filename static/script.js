@@ -47,11 +47,14 @@ function CSTM_JSONToTable(json)
 	// From JSON to Javascript object
 	var myObj = JSON.parse(json);
 	
-	// Setting up the data structures to build the table section 
+	// Setting up the data structures to build the table section (FOR NOW INSIDE THE FUNCTION)
 	const table = document.createElement("table");
+	
+	// Initializing the row that will contain the JSON object
+	const row = document.createElement("tr");
 
-	// keys => simply the description (wrote in left column) of the content in the right column
-	var keys = ["BPM:", "DownloadLink:", "Songs:", "Charter:", "Mixer:", "Difficulties:", "Charts:", "DeckSpeeds:", "VideoLink:", "Notes:"];
+	// keys => simply the description of the content in the right column (PROBABLY DEPRECATED)
+	//var keys = ["BPM:", "DownloadLink:", "Songs:", "Charter:", "Mixer:", "Difficulties:", "Charts:", "DeckSpeeds:", "VideoLink:", "Notes:"];
 	
 	// values => the data content of the JSON that we are going to write in the right column
 	var values = [myObj.BPM, myObj.DownloadLink, myObj.Songs, myObj.Charter, myObj.Mixer, myObj.Difficulties, myObj.Charts, myObj.DeckSpeeds, myObj.VideoLink, myObj.Notes];
@@ -59,15 +62,10 @@ function CSTM_JSONToTable(json)
 	// Creating the table structure
 	for(let c = 0; c < 10; c++)
 	{
-		const row = document.createElement("tr");
-		const frstCol = document.createElement("td");
-		const sndCol = document.createElement("td");
+		const col = document.createElement("td");
 		
 		if(c == 2 || (c >= 5 && c <= 7))
 		{
-			frstCol.appendChild(document.createTextNode(keys[c]));
-			row.appendChild(frstCol);	
-
 			const customs = document.createElement("ul");
 			for(x in values[c])
 			{
@@ -75,19 +73,16 @@ function CSTM_JSONToTable(json)
 				ls.appendChild(document.createTextNode(x));
 				customs.appendChild(ls);
 			}
-			sndCol.appendChild(customs);
-			row.appendChild(sndCol);
+			col.appendChild(customs);
+			row.appendChild(col);
 		}
 		else
 		{
-			frstCol.appendChild(document.createTextNode(keys[c]));
-			row.appendChild(frstCol);
-			
-			sndCol.appendChild(document.createTextNode(values[c]));
-			row.appendChild(sndCol);
+			col.appendChild(document.createTextNode(values[c]));
+			row.appendChild(col);
 		}
-		table.appendChild(row);		
 	}
+	table.appendChild(row);
 
 	//In the end, append the table
 	document.getElementById("show").appendChild(table);
@@ -98,11 +93,14 @@ function MGMX_JSONToTable(json)
 	// From JSON to Javascript object
 	var myObj = JSON.parse(json);
 	
-	// Setting up the data structures to build the table section 
+	// Setting up the data structures to build the table section (FOR NOW INSIDE THE FUNCTION)
 	const table = document.createElement("table");
 
-	// keys => simply the description (wrote in left column) of the content in the right column
-	var keys = ["Megamix name:", "Download link:", "Video preview:", "Customs:"]
+	// Initializing the row that will contain the JSON object
+	const row = document.createElement("tr");
+
+	// keys => simply the description (wrote in left column) of the content in the right column (PROBABLY DEPRECATED)
+	//var keys = ["Megamix name:", "Download link:", "Video preview:", "Customs:"] 
 	
 	// values => the data content of the JSON that we are going to write in the right column
 	var values = [myObj.Name, myObj.DownloadLink, myObj.VideoPreview];
@@ -110,23 +108,15 @@ function MGMX_JSONToTable(json)
 	// Creating the table structure
 	for(let c = 0; c < 4; c++)
 	{
-		const row = document.createElement("tr");
-		const frstCol = document.createElement("td");
-		const sndCol = document.createElement("td");
+		const col = document.createElement("td");
 		
 		if(c < 3)
 		{
-			frstCol.appendChild(document.createTextNode(keys[c]));
-			row.appendChild(frstCol);
-			
-			sndCol.appendChild(document.createTextNode(values[c]));
-			row.appendChild(sndCol);
+			col.appendChild(document.createTextNode(values[c]));
+			row.appendChild(col);
 		}
 		else
 		{
-			frstCol.appendChild(document.createTextNode(keys[c]));
-			row.appendChild(frstCol);
-			
 			const customs = document.createElement("ul");
 			for(x in myObj.Customs)
 			{
@@ -134,12 +124,11 @@ function MGMX_JSONToTable(json)
 				ls.appendChild(document.createTextNode(x));
 				customs.appendChild(ls);
 			}
-			sndCol.appendChild(customs);
-			row.appendChild(sndCol);
-		}
-		table.appendChild(row);
-		
+			col.appendChild(customs);
+			row.appendChild(col);
+		}		
 	}
+	table.appendChild(row);
 	
 	//In the end, append the table
 	document.getElementById("show").appendChild(table);
