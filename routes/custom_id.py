@@ -31,7 +31,7 @@ def GetCustom(id:int) -> Custom:
 
 # PATCH /api/v1/custom/<id>
 # Attempts to change a custom already in the database
-# Request must have an Authorization code attached to the header
+# Request must have an Authorization code attached to the header, see /api/v1/login
 # Returns a Custom instance with all of the fields that are currently saved in the db
 @custom_id.patch("/{id}")
 def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)) -> Custom:
@@ -86,7 +86,7 @@ def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)
 
 # DELETE /api/v1/custom/<id>
 # Attempts to delete a custom already in the database
-# Request must have an Authorization code attached to the header
+# Request must have an Authorization code attached to the header, see /api/v1/login
 # Returns 204 no content on success
 @custom_id.delete("/{id}")
 def DeleteCustom(id:int,authorization:str|None=Header(default=None)):

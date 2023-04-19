@@ -41,7 +41,7 @@ def GetMegamix(id:int) -> Megamix:
 
 # PATCH /api/v1/megamix/<id>
 # Attempts to change a megamix already in the database
-# Request must have an Authorization code attached to the header
+# Request must have an Authorization code attached to the header, see /api/v1/login
 # Returns a Megamix instance with all of the fields that are currently saved in the db
 @megamix_id.patch("/{id}")
 def PatchMegamix(id, mgmx:Megamix, authorization:str|None=Header(default=None)) -> Megamix:
@@ -77,7 +77,7 @@ def PatchMegamix(id, mgmx:Megamix, authorization:str|None=Header(default=None)) 
 
 # DELETE /api/v1/megamix/<id>
 # Attempts to delete a megamix already in the database
-# Request must have an Authorization code attached to the header
+# Request must have an Authorization code attached to the header, see /api/v1/login
 # Returns 204 no content on success
 @megamix_id.delete("/{id}")
 def DeleteMegamix(id, authorization:str|None=Header(default=None)):

@@ -7,6 +7,9 @@ from datetime import datetime,timezone,timedelta
 
 login = APIRouter()
 
+# GET /api/v1/login
+# The request must contain an 'Authorization: Basic' header containing name and password encoded as base64
+# If login is successfull, returns a temporary uuid code that can be used for routes that require authentication
 @login.get("/login")
 def BasicLogin(authorization:str|None = Header(default=None)) -> str:
     # The user will send username and password as a basic Authorization header
