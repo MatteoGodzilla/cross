@@ -8,159 +8,96 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="group">
-        <div id="addCustom" class="twoColumn">
-            <h1>Add Custom</h1>
-            <div class="space"></div>
-            <label for="AddIDTag">IDTag</label>
-            <input type="text" name="AddIDTag" id="AddIDTag">
-            <label for="AddBPM">BPM</label>
-            <input type="number" name="AddBPM" id="AddBPM">
-            <label for="AddDownloadLink">Download Link</label>
-            <input type="text" name="AddDownloadLink" id="AddDownloadLink">
-            <div class="space"></div>
-            <label for="AddSongName1">Song Name 1</label>
-            <input type="text" name="AddSongName1" id="AddSongName1">
-            <label for="AddArtistName1">Artist Name 1</label>
-            <input type="text" name="AddArtistName1" id="AddArtistName1">
-            <label for="AddSongName2">Song Name 2</label>
-            <input type="text" name="AddSongName2" id="AddSongName2">
-            <label for="AddArtistName2">Artist Name 2</label>
-            <input type="text" name="AddArtistName2" id="AddArtistName2">
-            <label for="AddSongName3">Song Name 3</label>
-            <input type="text" name="AddSongName3" id="AddSongName3">
-            <label for="AddArtistName3">Artist Name 3</label>
-            <input type="text" name="AddArtistName3" id="AddArtistName3">
-            <div class="space"></div>
-            <label for="AddCharter">Charter</label>
-            <input type="text" name="AddCharter" id="AddCharter">
-            <label for="AddMixer">Mixer</label>
-            <input type="text" name="AddMixer" id="AddMixer">
-            <div class="space"></div>
-            <!-- Difficulties -->
-            <label for="AddGeneralDiff">General Difficulty</label>
-            <input type="number" name="AddGeneralDiff" id="AddGeneralDiff">
-            <label for="AddTapDiff">Tap Difficulty</label>
-            <input type="number" name="AddTapDiff" id="AddTapDiff">
-            <label for="AddCrossfadeDiff">Crossfade Difficulty</label>
-            <input type="number" name="AddCrossfadeDiff" id="AddCrossfadeDiff">
-            <label for="AddScratchDiff">Scratch Difficulty</label>
-            <input type="number" name="AddScratchDiff" id="AddScratchDiff">
-            <div class="space"></div>
-            <!-- Charts -->
-            <label> Available Charts</label>
-            <div>
-                <label for="AddBeginner">Beginner</label>
-                <input type="checkbox" name="AddBeginner" id="AddBeginner">
-                <label for="AddEasy">Easy</label>
-                <input type="checkbox" name="AddEasy" id="AddEasy">
-                <label for="AddMedium">Medium</label>
-                <input type="checkbox" name="AddMedium" id="AddMedium">
-                <label for="AddHard">Hard</label>
-                <input type="checkbox" name="AddHard" id="AddHard">
-                <label for="AddExpert">Expert</label>
-                <input type="checkbox" name="AddExpert" id="AddExpert">
-            </div>
-            <div class="space"></div>
-            <!-- Deckspeeds -->
-            <label for="AddBeginnerDS">DeckSpeed Beginner</label>
-            <input type="number" name="AddBeginnerDS" id="AddBeginnerDS">
-            <label for="AddEasyDS">DeckSpeed Easy</label>
-            <input type="number" name="AddEasyDS" id="AddEasyDS">
-            <label for="AddMediumDS">DeckSpeed Medium</label>
-            <input type="number" name="AddMediumDS" id="AddMediumDS">
-            <label for="AddHardDS">DeckSpeed Hard</label>
-            <input type="number" name="AddHardDS" id="AddHardDS">
-            <label for="AddExpertDS">DeckSpeed Expert</label>
-            <input type="number" name="AddExpertDS" id="AddExpertDS">
-            <div class="space"></div>
-
-            <label for="AddVideoLink">Video Link</label>
-            <input type="text" name="AddVideoLink" id="AddVideoLink">
-            <label for="AddNotes">Additional notes</label>
-            <input type="text" name="AddNotes" id="AddNotes">
-            <button class="submitButton" onclick="AddCustom()">ADD CUSTOM</button>
+    <h1>Add/Edit Custom</h1>
+    <a href="index.html">Go to Dashboard</a>
+    <br>
+    <br>
+    <div id="Custom" class="twoColumn form">
+        <label for="IDTag">IDTag</label>
+        <input type="text" name="IDTag" id="IDTag">
+        <label for="BPM">BPM</label>
+        <input type="number" name="BPM" id="BPM">
+        <label for="DownloadLink">Download Link</label>
+        <input type="text" name="DownloadLink" id="DownloadLink">
+        <div class="space"></div>
+        <label for="SongName1">Song Name 1</label>
+        <input type="text" name="SongName1" id="SongName1">
+        <label for="ArtistName1">Artist Name 1</label>
+        <input type="text" name="ArtistName1" id="ArtistName1">
+        <label for="SongName2">Song Name 2</label>
+        <input type="text" name="SongName2" id="SongName2">
+        <label for="ArtistName2">Artist Name 2</label>
+        <input type="text" name="ArtistName2" id="ArtistName2">
+        <label for="SongName3">Song Name 3</label>
+        <input type="text" name="SongName3" id="SongName3">
+        <label for="ArtistName3">Artist Name 3</label>
+        <input type="text" name="ArtistName3" id="ArtistName3">
+        <div class="space"></div>
+        <label for="Charter">Charter</label>
+        <input type="text" name="Charter" id="Charter">
+        <label for="Mixer">Mixer</label>
+        <input type="text" name="Mixer" id="Mixer">
+        <div class="space"></div>
+        <!-- Difficulties -->
+        <label for="GeneralDiff">General Difficulty</label>
+        <input type="number" name="GeneralDiff" id="GeneralDiff">
+        <label for="TapDiff">Tap Difficulty</label>
+        <input type="number" name="TapDiff" id="TapDiff">
+        <label for="CrossfadeDiff">Crossfade Difficulty</label>
+        <input type="number" name="CrossfadeDiff" id="CrossfadeDiff">
+        <label for="ScratchDiff">Scratch Difficulty</label>
+        <input type="number" name="ScratchDiff" id="ScratchDiff">
+        <div class="space"></div>
+        <!-- Charts -->
+        <label> Available Charts</label>
+        <div>
+            <label for="Beginner">Beginner</label>
+            <input type="checkbox" name="Beginner" id="Beginner">
+            <label for="Easy">Easy</label>
+            <input type="checkbox" name="Easy" id="Easy">
+            <label for="Medium">Medium</label>
+            <input type="checkbox" name="Medium" id="Medium">
+            <label for="Hard">Hard</label>
+            <input type="checkbox" name="Hard" id="Hard">
+            <label for="Expert">Expert</label>
+            <input type="checkbox" name="Expert" id="Expert">
         </div>
+        <div class="space"></div>
+        <!-- Deckspeeds -->
+        <label for="BeginnerDS">DeckSpeed Beginner</label>
+        <input type="number" name="BeginnerDS" id="BeginnerDS">
+        <label for="EasyDS">DeckSpeed Easy</label>
+        <input type="number" name="EasyDS" id="EasyDS">
+        <label for="MediumDS">DeckSpeed Medium</label>
+        <input type="number" name="MediumDS" id="MediumDS">
+        <label for="HardDS">DeckSpeed Hard</label>
+        <input type="number" name="HardDS" id="HardDS">
+        <label for="ExpertDS">DeckSpeed Expert</label>
+        <input type="number" name="ExpertDS" id="ExpertDS">
+        <div class="space"></div>
 
-        <div id="editCustom" class="twoColumn">
-            <h1>Edit Custom</h1>
-            <div></div>
-            <label for="EditDBID">Custom ID (Database)</label>
-            <input type="number" name="EditDBID" id="EditDBID">
-            <label for="EditIDTag">IDTag</label>
-            <input type="text" name="EditIDTag" id="EditIDTag">
-            <label for="EditBPM">BPM</label>
-            <input type="number" name="EditBPM" id="EditBPM">
-            <label for="EditDownloadLink">Download Link</label>
-            <input type="text" name="EditDownloadLink" id="EditDownloadLink">
-            <div class="space"></div>
-            <label for="EditSongName1">Song Name 1</label>
-            <input type="text" name="EditSongName1" id="EditSongName1">
-            <label for="EditArtistName1">Artist Name 1</label>
-            <input type="text" name="EditArtistName1" id="EditArtistName1">
-            <label for="EditSongName2">Song Name 2</label>
-            <input type="text" name="EditSongName2" id="EditSongName2">
-            <label for="EditArtistName2">Artist Name 2</label>
-            <input type="text" name="EditArtistName2" id="EditArtistName2">
-            <label for="EditSongName3">Song Name 3</label>
-            <input type="text" name="EditSongName3" id="EditSongName3">
-            <label for="EditArtistName3">Artist Name 3</label>
-            <input type="text" name="EditArtistName3" id="EditArtistName3">
-            <div class="space"></div>
-            <label for="EditCharter">Charter</label>
-            <input type="text" name="EditCharter" id="EditCharter">
-            <label for="EditMixer">Mixer</label>
-            <input type="text" name="EditMixer" id="EditMixer">
-            <div class="space"></div>
-            <!-- Difficulties -->
-            <label for="EditGeneralDiff">General Difficulty</label>
-            <input type="number" name="EditGeneralDiff" id="EditGeneralDiff">
-            <label for="EditTapDiff">Tap Difficulty</label>
-            <input type="number" name="EditTapDiff" id="EditTapDiff">
-            <label for="EditCrossfadeDiff">Crossfade Difficulty</label>
-            <input type="number" name="EditCrossfadeDiff" id="EditCrossfadeDiff">
-            <label for="EditScratchDiff">Scratch Difficulty</label>
-            <input type="number" name="EditScratchDiff" id="EditScratchDiff">
-            <div class="space"></div>
-            <!-- Charts -->
-            <label> Available Charts</label>
-            <div>
-                <label for="EditBeginner">Beginner</label>
-                <input type="checkbox" name="EditBeginner" id="EditBeginner">
-                <label for="EditEasy">Easy</label>
-                <input type="checkbox" name="EditEasy" id="EditEasy">
-                <label for="EditMedium">Medium</label>
-                <input type="checkbox" name="EditMedium" id="EditMedium">
-                <label for="EditHard">Hard</label>
-                <input type="checkbox" name="EditHard" id="EditHard">
-                <label for="EditExpert">Expert</label>
-                <input type="checkbox" name="EditExpert" id="EditExpert">
-            </div>
-            <div class="space"></div>
-            <!-- Deckspeeds -->
-            <label for="EditBeginnerDS">DeckSpeed Beginner</label>
-            <input type="number" name="EditBeginnerDS" id="EditBeginnerDS">
-            <label for="EditEasyDS">DeckSpeed Easy</label>
-            <input type="number" name="EditEasyDS" id="EditEasyDS">
-            <label for="EditMediumDS">DeckSpeed Medium</label>
-            <input type="number" name="EditMediumDS" id="EditMediumDS">
-            <label for="EditHardDS">DeckSpeed Hard</label>
-            <input type="number" name="EditHardDS" id="EditHardDS">
-            <label for="EditExpertDS">DeckSpeed Expert</label>
-            <input type="number" name="EditExpertDS" id="EditExpertDS">
-            <div class="space"></div>
-
-            <label for="EditVideoLink">Video Link</label>
-            <input type="text" name="EditVideoLink" id="EditVideoLink">
-            <label for="EditNotes">Additional notes</label>
-            <input type="text" name="EditNotes" id="EditNotes">
-            <button class="submitButton" onclick="EditCustom()">EDIT CUSTOM</button>
-        </div>
+        <label for="VideoLink">Video Link</label>
+        <input type="text" name="VideoLink" id="VideoLink">
+        <label for="Notes">Additional notes</label>
+        <input type="text" name="Notes" id="Notes">
+    </div>
+    <br>
+    <br>
+    <!-- Action buttons -->
+    <div class="twoColumn">
+        <div></div>
+        <label for="id">Database ID (only used for editing)</label>
+        <div></div>
+        <input type="number" name="id" id="id">
+        <button onclick="AddCustom()">ADD CUSTOM</button>
+        <button onclick="EditCustom()">EDIT CUSTOM</button>
     </div>
 
-    <h1>Latest Customs</h1>
-    <button class="submitButton" onclick="GetLatest()">Get Latest</button>
-    <table id="show"></table>
-    <script src="script.js"></script>
+    <!-- TODO: move this to the dashboard
+        <h1>Latest Customs</h1>
+        <button onclick="GetLatest()">Get Latest</button>
+        <table id="show"></table>
+        <script src="custom.js"></script>
+    -->
     </body>
 </html>

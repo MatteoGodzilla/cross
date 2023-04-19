@@ -1,48 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Megamix Management</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-    <div class="group">
-        <div class="twoColumn">
-            <h1>Add Megamix</h1>
-            <div></div>
-            <label for="AddMegamixName">Name</label>
-            <input type="text" name="AddMegamixName" id="AddMegamixName">
-            <label for="AddMegamixCustoms">Tracks (custom ids separated by comma)</label>
-            <input type="text" name="AddMegamixCustoms" id="AddMegamixCustoms">
-            <label for="AddMegamixDownload">Download Link</label>
-            <input type="text" name="AddMegamixDownload" id="AddMegamixDownload">
-            <label for="AddMegamixPreview">Video Preview</label>
-            <input type="text" name="AddMegamixPreview" id="AddMegamixPreview">
-            <button class="submitButton" onclick="AddMegamix()">ADD MEGAMIX</button>
-        </div>
-        <div class="twoColumn">
-            <h1>Edit Megamix</h1>
-            <div></div>
-            <label for="EditMegamixName">Name</label>
-            <input type="text" name="EditMegamixName" id="EditMegamixName">
-            <label for="EditMegamixCustoms">Tracks (custom ids separated by comma)</label>
-            <input type="text" name="EditMegamixCustoms" id="EditMegamixCustoms">
-            <label for="EditMegamixDownload">Download Link</label>
-            <input type="text" name="EditMegamixDownload" id="EditMegamixDownload">
-            <label for="EditMegamixPreview">Video Preview</label>
-            <input type="text" name="EditMegamixPreview" id="EditMegamixPreview">
-            <button class="submitButton" onclick="EditMegamix()">EDIT MEGAMIX</button>
-        </div>
-
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megamix Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Add/Edit Megamix</h1>
+    <a href="index.html">Go to Dashboard</a>
+    <br>
+    <br>
+    <div class="twoColumn form">
+        <label for="MegamixName">Name</label>
+        <input type="text" name="MegamixName" id="MegamixName">
+        <label for="MegamixCustoms">Tracks (custom ids separated by comma)</label>
+        <input type="text" name="MegamixCustoms" id="MegamixCustoms">
+        <label for="MegamixDownload">Download Link</label>
+        <input type="text" name="MegamixDownload" id="MegamixDownload">
+        <label for="MegamixPreview">Video Preview</label>
+        <input type="text" name="MegamixPreview" id="MegamixPreview">
+    </div>
+    <br>
+    <br>
+    <!-- Action buttons -->
+    <div class="twoColumn">
+        <div></div>
+        <label for="id">Database id (only used for editing)</label>
+        <div></div>
+        <input type="number" name="id" id="id">
+        <button onclick="AddMegamix()">ADD MEGAMIX</button>
+        <button onclick="EditMegamix()">EDIT MEGAMIX</button>
     </div>
 
+    <!-- TODO: Move this to the main dashboard
+        <h1>Latest Megamixes</h1>
+        <button onclick="GetLatest()">Get Latest</button>
+        <table id="show"></table>
+    -->
 
-    <h1>Latest Megamixes</h1> <!-- Need to fix or create an alternative to GetLatest() function -->
-    <button class="submitButton" onclick="GetLatest()">Get Latest</button>
-    <table id="show"></table>
-
-    <script src="script.js"></script>
+    <script src="megamix.js"></script>
     </body>
 </html>
