@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>Custom Management</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <a href="index.html">⇦ Dashboard</a>
     <h1>CUSTOM SONGS EDITING AND CREATION</h1>
@@ -51,28 +53,28 @@
         <label> Available Charts</label>
         <div>
             <label class="container" for="Beginner">Beginner
-            <input type="checkbox" name="Beginner" id="Beginner" onchange="DisableDeck('BeginnerDS')">
-            <span class="checkmark"></span>
+                <input type="checkbox" name="Beginner" id="Beginner" onchange="DisableDeck('BeginnerDS')">
+                <span class="checkmark"></span>
             </label>
 
             <label class="container" for="Easy">Easy
-            <input type="checkbox" name="Easy" id="Easy" onchange="DisableDeck('EasyDS')">
-            <span class="checkmark"></span>
+                <input type="checkbox" name="Easy" id="Easy" onchange="DisableDeck('EasyDS')">
+                <span class="checkmark"></span>
             </label>
 
             <label class="container" for="Medium">Medium
-            <input type="checkbox" name="Medium" id="Medium" onchange="DisableDeck('MediumDS')">
-            <span class="checkmark"></span>
+                <input type="checkbox" name="Medium" id="Medium" onchange="DisableDeck('MediumDS')">
+                <span class="checkmark"></span>
             </label>
 
             <label class="container" for="Hard">Hard
-            <input type="checkbox" name="Hard" id="Hard" onchange="DisableDeck('HardDS')">
-            <span class="checkmark"></span>
+                <input type="checkbox" name="Hard" id="Hard" onchange="DisableDeck('HardDS')">
+                <span class="checkmark"></span>
             </label>
 
             <label class="container" for="Expert">Expert
-            <input type="checkbox" name="Expert" id="Expert" onchange="DisableDeck('ExpertDS')">
-            <span class="checkmark"></span>
+                <input type="checkbox" name="Expert" id="Expert" onchange="DisableDeck('ExpertDS')">
+                <span class="checkmark"></span>
             </label>
         </div>
         <div class="space"></div>
@@ -103,8 +105,8 @@
         <label for="id">Database ID (only used for editing)</label>
         <div></div>
         <input type="number" name="id" id="id">
-        <button class="button btnCreate" onclick="AddCustom()">ADD CUSTOM</button>
-        <button class="button btnEdit" onclick="EditCustom()">EDIT CUSTOM</button>
+        <button class="btnCreate" onclick="AddCustom()">ADD CUSTOM</button>
+        <button class="btnEdit" onclick="EditCustom()">EDIT CUSTOM</button>
     </div>
     <script src="custom.js"></script>
 
@@ -114,5 +116,6 @@
         <table id="show"></table>
         <script src="custom.js"></script>
     -->
-    </body>
+</body>
+
 </html>

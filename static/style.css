@@ -1,90 +1,92 @@
 /*TEXT SETTINGS FOR MARGIN AND SIZE*/
-label, input, textarea{
-   font-size: 18px;
-   margin-top: 10px; 
+label,
+input {
+    font-size: 18px;
+    /*margin-top: 10px;*/
 }
-.required
-{
+
+.required {
     text-decoration: underline;
 }
+
 /*END TEXT SETTINGS*/
 
 /*GENERAL TAGS CUSTOMIZATION*/
 textarea {
-    width: 100%;
-    height: 150px;
-    padding: 12px 20px;
-    box-sizing: border-box;
+    /*margin-top: 10px;*/
+    height: 12rem;
     border-radius: 4px;
-    font-size: 16px;
     resize: none;
-  }
+}
 
-  .button {
+button {
     border: none;
     color: white;
-    padding: 16px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    padding: 1rem 32px;
+    font-size: larger;
     font-weight: bold;
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
-  }
-  
-a{font-size: 25px;}
-a:link {color:#ff0000;text-decoration: none;}
-a:visited {color:#ff0000;}
-a:hover {color:#ffbf00;}
+}
+
+a {
+    font-size: 1.5rem;
+}
+
+a:link {
+    color: #ff0000;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #ff0000;
+}
+
+a:hover {
+    color: #ffbf00;
+}
+
 /*END GENERAL TAGS*/
 
 /*CLASSES*/
-.twoColumn
-{
+.twoColumn {
     display: grid;
-    row-gap: 0.1rem;
+    row-gap: 10px;
     grid-template-columns: auto auto;
 }
 
-.form
-{
+.form {
     grid-template-columns: 10rem auto;
 }
 
-.space
-{
+.space {
     grid-column-start: span 2;
     height: 1rem;
 }
 
-.btnCreate 
-{
+.btnCreate {
     background-color: #0eca14;
     color: white;
     border: 3px solid #0eca14;
 }
-  
-.btnCreate:hover 
-{
-    background-color: white; 
-    color: black;     
-}
 
-.btnEdit 
-{
-    background-color:#0f55ed; 
-    color: white;
-    border: 3px solid #0f55ed;
-}
-  
-.btnEdit:hover 
-{
+.btnCreate:hover {
     background-color: white;
     color: black;
 }
-  
+
+.btnEdit {
+    background-color: #0f55ed;
+    color: white;
+    border: 3px solid #0f55ed;
+}
+
+.btnEdit:hover {
+    background-color: white;
+    color: black;
+}
+
 /*END CLASSES*/
 
 /*CHECKBOXES CSS*/
@@ -92,67 +94,66 @@ a:hover {color:#ffbf00;}
 .container {
     display: block;
     position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
+    padding-left: 25px;
+    margin-bottom: 6px;
     cursor: pointer;
-    font-size: 18px;
+    /* Not necessary anymore
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    */
     user-select: none;
-  }
-  
-  /* Hide the browser's default checkbox */
-  .container input {
+}
+
+/* Hide the browser's default checkbox */
+.container input {
     position: absolute;
     opacity: 0;
-    cursor: pointer;
     height: 0;
     width: 0;
-  }
-  
-  /* Create a custom checked symbol */
-  .checkmark {
+    left:0;
+}
+
+/* Create a custom checked symbol */
+.checkmark {
     position: absolute;
     top: 0;
     left: 0;
     height: 20px;
     width: 20px;
     background-color: #dddddd;
-  }
-  
-  /* On mouse-over, add a grey background color */
-  .container:hover input ~ .checkmark {
+    box-sizing: border-box;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input~.checkmark {
     background-color: #bbbbbb;
-  }
-  
-  /* When the checkbox is checked, add a blue background */
-  .container input:checked ~ .checkmark {
+}
+
+/* When the checkbox is checked, add a green background */
+.container input:checked~.checkmark {
     background-color: #00d739;
-  }
-  
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark:after {
+}
+
+input[type=checkbox]:focus~.checkmark{
+    outline: 2px solid cornflowerblue;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
     content: "";
     position: absolute;
-    display: none;
-  }
-  
-  /* Show the checkmark when checked */
-  .container input:checked ~ .checkmark:after {
-    display: block;
-  }
-  
-  /* Style the checkmark/indicator */
-  .container .checkmark:after {
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
     left: 6px;
     top: 2px;
     width: 5px;
     height: 10px;
     border: solid white;
     border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-  }
+}
+
 /*END CHECKBOXES*/
