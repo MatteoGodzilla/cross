@@ -1,8 +1,10 @@
 function AddCustom(){
+	//MISSING CHECK IMPORTANT PARAMETERS LOGIC
 	alert("ADD")
 }
 
 function EditCustom(){
+	//MISSING CHECK IMPORTANT PARAMETERS LOGIC
 	alert("EDIT")
 }
 
@@ -70,4 +72,18 @@ function CSTM_JSONToTable(json)
 
 	//In the end, append the table
 	document.getElementById("show").appendChild(row);
+}
+
+//DisableDeck() function disable fields that should remain empty (based on certain conditions)
+function DisableDeck(name)
+{
+	var item = document.getElementById(name);
+	if(item.disabled)
+	{
+		item.disabled = false;
+	}
+	else
+	{
+		item.disabled = true;
+	}
 }

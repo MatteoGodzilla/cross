@@ -8,21 +8,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Add/Edit Custom</h1>
-    <a href="index.html">Go to Dashboard</a>
-    <br>
+    <a href="index.html">⇦ Dashboard</a>
+    <h1>CUSTOM SONGS EDITING AND CREATION</h1>
     <br>
     <div id="Custom" class="twoColumn form">
-        <label for="IDTag">IDTag</label>
+        <label class="required" for="IDTag">IDTag*</label>
         <input type="text" name="IDTag" id="IDTag">
-        <label for="BPM">BPM</label>
+        <label class="required" for="BPM">BPM*</label>
         <input type="number" name="BPM" id="BPM">
-        <label for="DownloadLink">Download Link</label>
+        <label class="required" for="DownloadLink">Download Link*</label>
         <input type="text" name="DownloadLink" id="DownloadLink">
         <div class="space"></div>
-        <label for="SongName1">Song Name 1</label>
+        <label class="required" for="SongName1">Song Name 1*</label>
         <input type="text" name="SongName1" id="SongName1">
-        <label for="ArtistName1">Artist Name 1</label>
+        <label class="required" for="ArtistName1">Artist Name 1*</label>
         <input type="text" name="ArtistName1" id="ArtistName1">
         <label for="SongName2">Song Name 2</label>
         <input type="text" name="SongName2" id="SongName2">
@@ -51,35 +50,50 @@
         <!-- Charts -->
         <label> Available Charts</label>
         <div>
-            <label for="Beginner">Beginner</label>
-            <input type="checkbox" name="Beginner" id="Beginner">
-            <label for="Easy">Easy</label>
-            <input type="checkbox" name="Easy" id="Easy">
-            <label for="Medium">Medium</label>
-            <input type="checkbox" name="Medium" id="Medium">
-            <label for="Hard">Hard</label>
-            <input type="checkbox" name="Hard" id="Hard">
-            <label for="Expert">Expert</label>
-            <input type="checkbox" name="Expert" id="Expert">
+            <label class="container" for="Beginner">Beginner
+            <input type="checkbox" name="Beginner" id="Beginner" onchange="DisableDeck('BeginnerDS')">
+            <span class="checkmark"></span>
+            </label>
+
+            <label class="container" for="Easy">Easy
+            <input type="checkbox" name="Easy" id="Easy" onchange="DisableDeck('EasyDS')">
+            <span class="checkmark"></span>
+            </label>
+
+            <label class="container" for="Medium">Medium
+            <input type="checkbox" name="Medium" id="Medium" onchange="DisableDeck('MediumDS')">
+            <span class="checkmark"></span>
+            </label>
+
+            <label class="container" for="Hard">Hard
+            <input type="checkbox" name="Hard" id="Hard" onchange="DisableDeck('HardDS')">
+            <span class="checkmark"></span>
+            </label>
+
+            <label class="container" for="Expert">Expert
+            <input type="checkbox" name="Expert" id="Expert" onchange="DisableDeck('ExpertDS')">
+            <span class="checkmark"></span>
+            </label>
         </div>
         <div class="space"></div>
         <!-- Deckspeeds -->
         <label for="BeginnerDS">DeckSpeed Beginner</label>
-        <input type="number" name="BeginnerDS" id="BeginnerDS">
+        <input type="number" name="BeginnerDS" id="BeginnerDS" disabled="true">
         <label for="EasyDS">DeckSpeed Easy</label>
-        <input type="number" name="EasyDS" id="EasyDS">
+        <input type="number" name="EasyDS" id="EasyDS" disabled="true">
         <label for="MediumDS">DeckSpeed Medium</label>
-        <input type="number" name="MediumDS" id="MediumDS">
+        <input type="number" name="MediumDS" id="MediumDS" disabled="true">
         <label for="HardDS">DeckSpeed Hard</label>
-        <input type="number" name="HardDS" id="HardDS">
+        <input type="number" name="HardDS" id="HardDS" disabled="true">
         <label for="ExpertDS">DeckSpeed Expert</label>
-        <input type="number" name="ExpertDS" id="ExpertDS">
+        <input type="number" name="ExpertDS" id="ExpertDS" disabled="true">
         <div class="space"></div>
 
         <label for="VideoLink">Video Link</label>
         <input type="text" name="VideoLink" id="VideoLink">
         <label for="Notes">Additional notes</label>
-        <input type="text" name="Notes" id="Notes">
+        <textarea name="Notes" id="Notes"></textarea>
+        <!--<input type="text" name="Notes" id="Notes">-->
     </div>
     <br>
     <br>
@@ -89,9 +103,10 @@
         <label for="id">Database ID (only used for editing)</label>
         <div></div>
         <input type="number" name="id" id="id">
-        <button onclick="AddCustom()">ADD CUSTOM</button>
-        <button onclick="EditCustom()">EDIT CUSTOM</button>
+        <button class="button btnCreate" onclick="AddCustom()">ADD CUSTOM</button>
+        <button class="button btnEdit" onclick="EditCustom()">EDIT CUSTOM</button>
     </div>
+    <script src="custom.js"></script>
 
     <!-- TODO: move this to the dashboard
         <h1>Latest Customs</h1>

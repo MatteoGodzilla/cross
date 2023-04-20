@@ -8,15 +8,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Add/Edit Megamix</h1>
-    <a href="index.html">Go to Dashboard</a>
-    <br>
+    <a href="index.html">⇦ Dashboard</a>
+    <h1>MEGAMIXES EDITING AND CREATION</h1>
     <br>
     <div class="twoColumn form">
         <label for="MegamixName">Name</label>
         <input type="text" name="MegamixName" id="MegamixName">
-        <label for="MegamixCustoms">Tracks (custom ids separated by comma)</label>
-        <input type="text" name="MegamixCustoms" id="MegamixCustoms">
+        <label for="MegamixCustoms">Tracks</label>
+        <input type="text" name="MegamixCustoms" id="MegamixCustoms" placeholder="custom1_id, custom2_id, ...">
         <label for="MegamixDownload">Download Link</label>
         <input type="text" name="MegamixDownload" id="MegamixDownload">
         <label for="MegamixPreview">Video Preview</label>
@@ -30,8 +29,8 @@
         <label for="id">Database id (only used for editing)</label>
         <div></div>
         <input type="number" name="id" id="id">
-        <button onclick="AddMegamix()">ADD MEGAMIX</button>
-        <button onclick="EditMegamix()">EDIT MEGAMIX</button>
+        <button class="button btnCreate" onclick="AddMegamix()">ADD MEGAMIX</button>
+        <button class="button btnEdit" onclick="EditMegamix()">EDIT MEGAMIX</button>
     </div>
 
     <!-- TODO: Move this to the main dashboard
