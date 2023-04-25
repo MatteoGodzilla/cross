@@ -33,25 +33,35 @@ button {
     transition-duration: 0.4s;
     cursor: pointer;
 }
-
 /*END GENERAL TAGS*/
+
 /* NAVBAR STYLES */
-
-.navlink {
-    font-size: 1.5rem;
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
 }
-
-.navlink:link {
-    color: #ff0000;
+  
+li {
+    float: left;
+}
+  
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
     text-decoration: none;
 }
 
-.navlink:visited {
-    color: #ff0000;
+li a:hover:not(.active) {
+    background-color: #111;
 }
 
-.navlink:hover {
-    color: #ffbf00;
+.active {
+    background-color: #04AA6D;
 }
 /*END NAVBAR STYLES*/
 
@@ -74,10 +84,13 @@ table>tbody tr:nth-child(even)>.notAvailable{
 
 table{
     border-collapse: collapse;
+    text-align: center;
 }
 td,th{
     padding-right: 10px;
-    text-align: left;
+    padding-left: 10px;
+    border-right: solid 1px #f00; 
+    border-left: solid 1px #f00;
 }
 
 /*END TABLE CLASSES*
