@@ -12,6 +12,10 @@ input {
 /*END TEXT SETTINGS*/
 
 /*GENERAL TAGS CUSTOMIZATION*/
+body{
+    white-space: pre-line;
+}
+
 textarea {
     /*margin-top: 10px;*/
     height: 12rem;
@@ -30,24 +34,53 @@ button {
     cursor: pointer;
 }
 
-a {
+/*END GENERAL TAGS*/
+/* NAVBAR STYLES */
+
+.navlink {
     font-size: 1.5rem;
 }
 
-a:link {
+.navlink:link {
     color: #ff0000;
     text-decoration: none;
 }
 
-a:visited {
+.navlink:visited {
     color: #ff0000;
 }
 
-a:hover {
+.navlink:hover {
     color: #ffbf00;
 }
+/*END NAVBAR STYLES*/
 
-/*END GENERAL TAGS*/
+/* TABLE CLASSES */
+table>tbody tr{
+    height: 2rem;
+}
+
+table>tbody tr:nth-child(even){
+    background-color: #dddddd;
+}
+
+table>tbody tr:nth-child(even)>.available{
+    background-color: lightgreen;
+}
+
+table>tbody tr:nth-child(even)>.notAvailable{
+    background-color: lightcoral;
+}
+
+table{
+    border-collapse: collapse;
+}
+td,th{
+    padding-right: 10px;
+    text-align: left;
+}
+
+/*END TABLE CLASSES*
 
 /*CLASSES*/
 .twoColumn {
@@ -87,21 +120,24 @@ a:hover {
     color: black;
 }
 
+/* Used for displaying available charts */
+.available{
+    background-color: lightgreen;
+}
+
+.notAvailable{
+    background-color: lightcoral;
+}
+
 /*END CLASSES*/
 
 /*CHECKBOXES CSS*/
-/* The container */
 .container {
     display: block;
     position: relative;
     padding-left: 25px;
     margin-bottom: 6px;
     cursor: pointer;
-    /* Not necessary anymore
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    */
     user-select: none;
 }
 
@@ -157,3 +193,4 @@ input[type=checkbox]:focus~.checkmark{
 }
 
 /*END CHECKBOXES*/
+
