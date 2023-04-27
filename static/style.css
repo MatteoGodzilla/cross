@@ -38,6 +38,7 @@ button {
 /* NAVBAR STYLES */
 ul {
     list-style-type: none;
+    white-space:normal;
     margin: 0;
     padding: 0;
     overflow: hidden;
