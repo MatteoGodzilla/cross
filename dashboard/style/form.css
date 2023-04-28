@@ -1,0 +1,64 @@
+label,
+input {
+    font-size: 18px;
+}
+
+textarea {
+    height: 12rem;
+    border-radius: 4px;
+    resize: none;
+}
+
+button {
+    border: none;
+    color: white;
+    padding: 1rem 32px;
+    font-size: larger;
+    font-weight: bold;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+/* CLASSES */
+
+.twoColumn {
+    display: grid;
+    row-gap: 10px;
+    grid-template-columns: auto auto;
+}
+
+.form {
+    grid-template-columns: 10rem auto;
+}
+
+.space {
+    grid-column-start: span 2;
+    height: 1rem;
+}
+
+.btnCreate {
+    background-color: #0eca14;
+    color: white;
+    border: 3px solid #0eca14;
+}
+
+.btnCreate:hover {
+    background-color: white;
+    color: black;
+}
+
+.btnEdit {
+    background-color: #0f55ed;
+    color: white;
+    border: 3px solid #0f55ed;
+}
+
+.btnEdit:hover {
+    background-color: white;
+    color: black;
+}
+
+.required {
+    text-decoration: underline;
+}

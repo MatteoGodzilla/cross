@@ -1,6 +1,7 @@
 from database import *
 from fastapi import APIRouter, Response
 import time
+import math
 
 custom_latest = APIRouter()
 
@@ -10,15 +11,20 @@ custom_latest = APIRouter()
 # if a timestamp is not provided, the current unix time will be used
 @custom_latest.get("/custom/latest/{timeLimit}")
 @custom_latest.get("/custom/latest/")
-def GetLasts(timeLimit:float = time.time()) -> list[int]:
+def GetLasts(timeLimit:int = -1) -> list[int]:
     conn = CreateConnection()
     if conn is None:
         # Convert to raise HTTPException
         return Response("There was an error with connecting to the database (500)", 500)
 
     cursor = conn.cursor()
-    param_query = "SELECT id FROM customs WHERE unix_timestamp(lastUpdate) <= ? ORDER BY lastUpdate DESC LIMIT 50"
-    cursor.execute(param_query, [timeLimit])
+    param_query = "SELECT id FROM customs "
+    if(timeLimit != -1):
+        param_query += "WHERE unix_timestamp(lastUpdate) <= ? "
+
+    param_query += "ORDER BY lastUpdate DESC LIMIT 50"
+
+    cursor.execute(param_query, [math.ceil(timeLimit)])
     res=cursor.fetchall()
     cursor.close()
     DestroyConnection(conn)

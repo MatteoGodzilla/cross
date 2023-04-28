@@ -5,17 +5,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Management</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Add/Edit Custom</title>
+    <link rel="stylesheet" href="../style/navbar.css">
+    <link rel="stylesheet" href="../style/form.css">
+    <link rel="stylesheet" href="../style/customCheckbox.css">
 </head>
 
 <body>
     <ul>
-        <li><a href="index.html">Dashboard</a></li>
-        <li><a class="active" href="custom.html">Custom Management</a></li>
-        <li><a href="megamix.html">Megamix Management</a></li>
+        <li><a href="index.html">Custom Dashboard</a></li>
+        <li><a class="active" href="management.html">Add/Edit Custom</a></li>
+        <li><a href="../megamix/index.html">Megamix Dashboard</a></li>
+        <li><a href="../megamix/management.html">Add/Edit Megamix</a></li>
     </ul>
-       <h1>CUSTOM SONGS EDITING AND CREATION</h1>
     <br>
     <div id="Custom" class="twoColumn form">
         <label class="required" for="IDTag">IDTag*</label>
@@ -45,13 +47,13 @@
         <div class="space"></div>
         <!-- Difficulties -->
         <label for="GeneralDiff">General Difficulty</label>
-        <input type="number" name="GeneralDiff" id="GeneralDiff">
+        <input type="number" name="GeneralDiff" id="GeneralDiff" min="0" max="100">
         <label for="TapDiff">Tap Difficulty</label>
-        <input type="number" name="TapDiff" id="TapDiff">
+        <input type="number" name="TapDiff" id="TapDiff" min="0" max="100">
         <label for="CrossfadeDiff">Crossfade Difficulty</label>
-        <input type="number" name="CrossfadeDiff" id="CrossfadeDiff">
+        <input type="number" name="CrossfadeDiff" id="CrossfadeDiff" min="0" max="100">
         <label for="ScratchDiff">Scratch Difficulty</label>
-        <input type="number" name="ScratchDiff" id="ScratchDiff">
+        <input type="number" name="ScratchDiff" id="ScratchDiff" min="0" max="100">
         <div class="space"></div>
         <!-- Charts -->
         <label> Available Charts</label>
@@ -84,15 +86,15 @@
         <div class="space"></div>
         <!-- Deckspeeds -->
         <label for="BeginnerDS">DeckSpeed Beginner</label>
-        <input type="number" name="BeginnerDS" id="BeginnerDS" disabled="true">
+        <input type="number" name="BeginnerDS" id="BeginnerDS" disabled="true" min="0">
         <label for="EasyDS">DeckSpeed Easy</label>
-        <input type="number" name="EasyDS" id="EasyDS" disabled="true">
+        <input type="number" name="EasyDS" id="EasyDS" disabled="true" min="0">
         <label for="MediumDS">DeckSpeed Medium</label>
-        <input type="number" name="MediumDS" id="MediumDS" disabled="true">
+        <input type="number" name="MediumDS" id="MediumDS" disabled="true" min="0">
         <label for="HardDS">DeckSpeed Hard</label>
-        <input type="number" name="HardDS" id="HardDS" disabled="true">
+        <input type="number" name="HardDS" id="HardDS" disabled="true" min="0">
         <label for="ExpertDS">DeckSpeed Expert</label>
-        <input type="number" name="ExpertDS" id="ExpertDS" disabled="true">
+        <input type="number" name="ExpertDS" id="ExpertDS" disabled="true" min="0">
         <div class="space"></div>
 
         <label for="VideoLink">Video Link</label>
@@ -112,14 +114,7 @@
         <button class="btnCreate" onclick="AddCustom()">ADD CUSTOM</button>
         <button class="btnEdit" onclick="EditCustom()">EDIT CUSTOM</button>
     </div>
-    <script src="custom.js"></script>
-
-    <!-- TODO: move this to the dashboard
-        <h1>Latest Customs</h1>
-        <button onclick="GetLatest()">Get Latest</button>
-        <table id="show"></table>
-        <script src="custom.js"></script>
-    -->
+    <script src="management.js"></script>
 </body>
 
 </html>

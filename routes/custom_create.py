@@ -23,7 +23,7 @@ def AddCustom(custom:Custom,authorization:str|None = Header(default=None)) -> in
 
     IDTag = custom.IDTag
 
-    if IDTag == None:
+    if IDTag == None or IDTag == "":
         # Convert to raise HTTPException
         return Response("A Custom must contain at least an IDTag (400)", 400)
     #IDTag is at least something

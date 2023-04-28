@@ -1,0 +1,36 @@
+tr{
+    height: 2rem;
+}
+
+tr:nth-child(even){
+    background-color: #dddddd;
+}
+
+tr:nth-child(even)>.available{
+    background-color: lightgreen;
+}
+
+tr:nth-child(even)>.notAvailable{
+    background-color: lightcoral;
+}
+
+table{
+    border-collapse: collapse;
+    text-align: center;
+    white-space: pre-line;
+}
+td,th{
+    padding-right: 10px;
+    padding-left: 10px;
+    border-right: solid 1px #f00;
+    border-left: solid 1px #f00;
+}
+
+/* CLASSES */
+.available{
+    background-color: lightgreen;
+}
+
+.notAvailable{
+    background-color: lightcoral;
+}

@@ -4,29 +4,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cross DB Interface </title>
-    <link rel="stylesheet" href="style.css">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../style/navbar.css">
+    <link rel="stylesheet" href="../style/table.css">
 </head>
 <body>
     <ul>
-        <li><a class="active" href="index.html">Dashboard</a></li>
-        <li><a href="custom.html">Custom Management</a></li>
-        <li><a href="megamix.html">Megamix Management</a></li>
+        <li><a class="active" href="index.html">Custom Dashboard</a></li>
+        <li><a href="management.html">Add/Edit Custom</a></li>
+        <li><a href="../megamix/index.html">Megamix Dashboard</a></li>
+        <li><a href="../megamix/management.html">Add/Edit Megamix</a></li>
     </ul>
-    <h1>Cross DB Dashboard</h1>
     <table id="customs">
         <thead>
             <tr>
-                <th colspan="7"></th>
+                <th colspan="6">General Info</th>
                 <th colspan="4">Difficulties</th>
                 <th colspan="5">Available Charts/ Deckspeeds</th>
-                <th colspan="2"></th>
+                <th colspan="3">Extra </th>
             </tr>
             <tr>
-                <th>Database ID</th>
+                <th>ID</th>
                 <th>IDTag</th>
                 <th>BPM</th>
-                <th>Download Link</th>
                 <th>Songs</th>
                 <th>Charter</th>
                 <th>Mixer</th>
@@ -39,7 +39,7 @@
                 <th>Medium</th>
                 <th>Hard</th>
                 <th>Expert</th>
-
+                <th>Download Link</th>
                 <th>Video Link</th>
                 <th>Notes</th>
             </tr>
@@ -48,8 +48,6 @@
 
         </tbody>
     </table>
-    <table id="megamixes"></table>
-
     <script src="index.js"></script>
 </body>
 </html>

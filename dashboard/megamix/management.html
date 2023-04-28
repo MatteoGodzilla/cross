@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Megamix Management</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Add/Edit Megamix</title>
+    <link rel="stylesheet" href="../style/navbar.css">
+    <link rel="stylesheet" href="../style/form.css">
 </head>
 <body>
     <ul>
-        <li><a href="index.html">Dashboard</a></li>
-        <li><a href="custom.html">Custom Management</a></li>
-        <li><a class="active" href="megamix.html">Megamix Management</a></li>
+        <li><a href="../custom/index.html">Custom Dashboard</a></li>
+        <li><a href="../custom/management.html">Add/Edit Custom</a></li>
+        <li><a href="index.html">Megamix Dashboard</a></li>
+        <li><a class="active" href="management.html">Add/Edit Megamix</a></li>
     </ul>
-    <h1>MEGAMIXES EDITING AND CREATION</h1>
     <br>
     <div class="twoColumn form">
         <label for="MegamixName">Name</label>
@@ -37,12 +38,6 @@
         <button class="button btnEdit" onclick="EditMegamix()">EDIT MEGAMIX</button>
     </div>
 
-    <!-- TODO: Move this to the main dashboard
-        <h1>Latest Megamixes</h1>
-        <button onclick="GetLatest()">Get Latest</button>
-        <table id="show"></table>
-    -->
-
-    <script src="megamix.js"></script>
+    <script src="management.js"></script>
     </body>
 </html>

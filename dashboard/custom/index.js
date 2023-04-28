@@ -1,35 +1,19 @@
 async function GetLatestCustoms(){
-    customsTable = document.querySelector("#customs tbody")
+    let customsTable = document.querySelector("#customs tbody")
     customsTable.innerHTML = ""
 
     ids = await fetch(`/api/v1/custom/latest/`).then(res => res.json())
-    console.log(ids)
+    //console.log(ids)
 
     for(id of ids){
         json = await fetch(`/api/v1/custom/${id}`).then(res => res.json());
-        console.log(json)
+        //console.log(json)
         customsTable.appendChild(CustomToTable(json,id))
     }
 }
 
-/*
-function CustomToPage(custom,id){
-    //console.log(custom)
-    div = document.createElement("div")
-    str = `${id}: ${custom.IDTag} / `
-    for(song of custom.Songs){
-        str += `${song.name} by ${song.artist}, `
-    }
-    div.innerText = str
-
-    return div
-}
-*/
-
 function CustomToTable(json,id)
 {
-	// From JSON to Javascript object
-
 	// Initializing the row that will contain the JSON object
 	const row = document.createElement("tr");
 
@@ -48,23 +32,14 @@ function CustomToTable(json,id)
     data.textContent = json.BPM.toString()
     row.appendChild(data)
 
-    //Download Link
-    data = document.createElement("td")
-    if(json.DownloadLink){
-        let anchor = document.createElement("a")
-        anchor.href = json.DownloadLink
-        anchor.text = "Download Link"
-        data.append(anchor)
-    } else{
-        data.textContent = "null"
-    }
-    row.appendChild(data)
-
     //songs
     data = document.createElement("td")
     if(json.Songs.length > 0){
-        for(let song of json.Songs){
-            data.textContent += `${song.name} / ${song.artist}\n`
+        for(let i = 0; i < json.Songs.length; i++){
+            let song = json.Songs[i]
+            data.textContent += `${song.name} / ${song.artist}`
+            if(i + 1 <json.Songs.length )
+                data.textContent += " ⇌\n"
         }
     } else {
         data.textContent = "empty"
@@ -147,6 +122,18 @@ function CustomToTable(json,id)
     data.textContent = json.DeckSpeeds.Expert
     row.appendChild(data)
 
+    //Download Link
+    data = document.createElement("td")
+    if(json.DownloadLink){
+        let anchor = document.createElement("a")
+        anchor.href = json.DownloadLink
+        anchor.text = "Download Link"
+        data.append(anchor)
+    } else{
+        data.textContent = "null"
+    }
+    row.appendChild(data)
+
     //Video link
     data = document.createElement("td")
     if(json.VideoLink){
@@ -168,9 +155,4 @@ function CustomToTable(json,id)
 	return row;
 }
 
-function GetLatestMegamixes(){
-
-}
-
 GetLatestCustoms()
-GetLatestMegamixes()
