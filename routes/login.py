@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Response,Header,HTTPException, Depends
+from fastapi import APIRouter, Response,Header, Depends
 from fastapi.security import HTTPBasic,HTTPBasicCredentials
-import base64
 import bcrypt
 import uuid
 from database import *
-from datetime import datetime,timezone,timedelta
+from datetime import datetime,timedelta
+import time
 
 login = APIRouter()
 security = HTTPBasic()
@@ -43,7 +43,7 @@ def BasicLogin(credentials:HTTPBasicCredentials = Depends(security)) -> str:
         code = str(uuid.uuid4())
         # By default the token provided works for up to 2 hours
         # 2 hours = 2*60*60
-        now = datetime.now(timezone.utc).replace(microsecond=0)
+        now = datetime.now().replace(microsecond=0)
         expires = now + timedelta(hours=2)
 
         sql = "INSERT INTO auth (`User ID`,`Code`,`Expires`) VALUES (?,?,?);"
@@ -57,3 +57,9 @@ def BasicLogin(credentials:HTTPBasicCredentials = Depends(security)) -> str:
         DestroyConnection(conn)
         # Convert to raise HTTPException
         return Response("Invalid credentials",401)
+
+# GET /api/v1/login/check
+# The request must contain an 'Authorization: Bearer' header containing a code to check
+@login.get("/login/check")
+def checkLogin(authorization:str|None = Header(default=None)):
+    return CheckAuth(authorization)

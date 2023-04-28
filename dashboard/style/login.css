@@ -1,0 +1,43 @@
+/* Used to make the background alpha darkening the page*/
+#login{
+    position: fixed;
+    display: flex;
+    top:0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    align-items: center;
+    justify-content: center;
+}
+
+/* "Window" that is in the middle of the screen*/
+#login>div{
+    position: relative;
+    background-color: white;
+    padding: 1rem;
+    width: 50vw;
+}
+
+#login button{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    padding: 0px;
+}
+
+#login h1{
+    margin-top: 0px;
+}
+
+#login input[type="submit"]{
+    margin-top: 1rem;
+    font-size: xx-large;
+    width: 100%;
+}
+
+#login.hidden{
+    display: none;
+}

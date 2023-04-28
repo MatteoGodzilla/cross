@@ -17,9 +17,10 @@ async function AddCustom(){
 			headers:headers
 		})
 		if(result.status != 201){
-			throw await result.text()
+			let login = document.querySelector("#login")
+			login.classList.remove("hidden")
 		} else {
-			window.location = "/custom/index.html"
+			window.location = "../custom/index.html"
 		}
 	} catch (error) {
 		alert(error);

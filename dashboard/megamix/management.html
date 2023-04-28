@@ -7,6 +7,7 @@
     <title>Add/Edit Megamix</title>
     <link rel="stylesheet" href="../style/navbar.css">
     <link rel="stylesheet" href="../style/form.css">
+    <link rel="stylesheet" href="../style/login.css">
 </head>
 <body>
     <ul>
@@ -36,6 +37,24 @@
         <input type="number" name="id" id="id">
         <button class="button btnCreate" onclick="AddMegamix()">ADD MEGAMIX</button>
         <button class="button btnEdit" onclick="EditMegamix()">EDIT MEGAMIX</button>
+    </div>
+    <div id="login" class="hidden">
+        <div>
+            <h1>Login</h1>
+            In order to perform this action, a valid authorization code is required.
+            Please login with your credentials
+            <br>
+            <br>
+            <button onclick="CloseLogin()">X</button>
+            <div class="twoColumn">
+                <label for="Username">Username</label>
+                <input type="text" name="Username" id="username">
+                <label for="Password">Password</label>
+                <input type="password" name="Password" id="password">
+            </div>
+            <input type="submit" value="Login" onclick="Login()">
+        </div>
+        <script src="../login.js"></script>
     </div>
 
     <script src="management.js"></script>
