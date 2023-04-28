@@ -12,7 +12,7 @@ async function AddCustom(){
 			headers:headers
 		})
 		if(result.status != 201){
-			result.text().then(str => alert(str))
+			throw await result.text()
 		} else {
 			window.location = "/custom/index.html"
 		}

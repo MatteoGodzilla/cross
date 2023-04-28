@@ -10,9 +10,9 @@ custom_create = APIRouter()
 # Request must have an Authorization code attached to the header
 @custom_create.post("/custom/create")
 def AddCustom(custom:Custom,authorization:str|None = Header(default=None)) -> int:
-    if authorization == None:
+    if not CheckAuth(authorization):
         # Convert to raise HTTPException
-        return Response("No Authorization code was specified (400)", 400)
+        return Response("Authorization code was invalid (403)",403)
 
     connection = CreateConnection()
     if connection is None:

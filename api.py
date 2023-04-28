@@ -16,6 +16,7 @@ URL_PREFIX = f"/api/v{version}"
 # Tags used to group in the auto generated docs
 CUSTOMS_TAG = ["Custom"]
 MEGAMIX_TAG = ["Megamix"]
+DASHBOARD_URL = "/dashboard"
 
 app = FastAPI(version=version,title="Cross")
 app.include_router(custom_create,prefix=URL_PREFIX,tags=CUSTOMS_TAG)
@@ -28,9 +29,9 @@ app.include_router(megamix_create,prefix=URL_PREFIX,tags=MEGAMIX_TAG)
 
 app.include_router(login,prefix=URL_PREFIX)
 
-app.mount("/static",StaticFiles(directory="static"))
+app.mount(DASHBOARD_URL,StaticFiles(directory="dashboard"))
 
 # Default route
 @app.get("/")
 def default():
-    return RedirectResponse("/static/index.html")
+    return RedirectResponse(DASHBOARD_URL + "/custom/index.html")

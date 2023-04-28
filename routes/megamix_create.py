@@ -1,6 +1,6 @@
 from typing import Any
 from fastapi import APIRouter, Header, Response
-from database import CreateConnection,DestroyConnection
+from database import CreateConnection,DestroyConnection,CheckAuth
 
 from megamix import Megamix,MegamixToDBColumns,MegamixToDBValues
 
@@ -16,6 +16,9 @@ def CreateMegamix(megamix:Megamix,authorization:str|None = Header(default=None))
     if conn is None:
         # Convert to raise HTTPException
         return Response("There was an error with connecting to the database (500)", 500)
+
+    if not CheckAuth(authorization):
+        return Response("Authorization code was invalid (403)",403)
 
     if len(megamix.Customs) == 0:
         return Response("The name for a megamix cannot be empty (400)", 400)

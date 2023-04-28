@@ -3,7 +3,6 @@
 from mariadb import mariadb,Connection
 from dotenv import load_dotenv
 import os
-from fastapi import Request
 
 load_dotenv()
 
