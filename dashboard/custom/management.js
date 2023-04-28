@@ -3,8 +3,13 @@ async function AddCustom(){
 		let custom = FormToCustomJSON()
 		// upload to database
 
+		let code = window.localStorage.getItem("Bearer")
+		if(code == undefined || code == "")
+			window.open("../login/index.html","parent")
+
 		let headers = new Headers()
-		headers.append("Authorization","Bearer notontwyontxwyoxtwynoxtwnyo")
+		//TODO: get authorization code from localstorage
+		headers.append("Authorization",`Bearer ${code}`)
 		headers.append("Content-Type","application/json")
 		let result = await fetch("/api/v1/custom/create",{
 			body:JSON.stringify(custom),

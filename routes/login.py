@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Response,Header,HTTPException
+from fastapi import APIRouter, Response,Header,HTTPException, Depends
+from fastapi.security import HTTPBasic,HTTPBasicCredentials
 import base64
 import bcrypt
 import uuid
@@ -6,27 +7,13 @@ from database import *
 from datetime import datetime,timezone,timedelta
 
 login = APIRouter()
+security = HTTPBasic()
 
 # GET /api/v1/login
 # The request must contain an 'Authorization: Basic' header containing name and password encoded as base64
 # If login is successfull, returns a temporary uuid code that can be used for routes that require authentication
 @login.get("/login")
-def BasicLogin(authorization:str|None = Header(default=None)) -> str:
-    # The user will send username and password as a basic Authorization header
-    if authorization == None:
-        return Response("No Authorization header was found",401)
-
-    auth_type,auth_value = authorization.split(" ")
-    if auth_type != "Basic":
-        # Convert to raise HTTPException
-        return Response("Authorization type must be set to Basic",401)
-    if auth_value == None:
-        # Convert to raise HTTPException
-        return Response("Authorization type is set to Basic, but no user:password was specified",401)
-
-    # decode auth_value into user and password
-    username,clear_password = base64.b64decode(auth_value).decode().split(":")
-
+def BasicLogin(credentials:HTTPBasicCredentials = Depends(security)) -> str:
     conn = CreateConnection()
     if conn == None:
         # Convert to raise HTTPException
@@ -35,11 +22,11 @@ def BasicLogin(authorization:str|None = Header(default=None)) -> str:
     cursor = conn.cursor()
     query = "SELECT id, HashedPassword FROM users WHERE Username = ?"
 
-    cursor.execute(query,[username])
+    cursor.execute(query,[credentials.username])
     res = cursor.fetchone()
     if res == None:
         # Convert to raise HTTPException
-        return Response("There was an error with the database (username not found)",500)
+        return Response("Invalid Credentials",401)
     userID, db_password = res
 
     if db_password == None:
@@ -50,7 +37,7 @@ def BasicLogin(authorization:str|None = Header(default=None)) -> str:
     sql = "DELETE FROM auth where Expires < Now();"
     cursor.execute(sql)
 
-    if bcrypt.checkpw(clear_password.encode(),str(db_password).encode()):
+    if bcrypt.checkpw(credentials.password.encode(),str(db_password).encode()):
         # Generate token
 
         code = str(uuid.uuid4())
