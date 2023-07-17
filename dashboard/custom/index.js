@@ -24,7 +24,10 @@ function CustomToTable(json,id)
 
     //IDTag
     data = document.createElement("td")
-    data.textContent = json.IDTag
+    let anchor = document.createElement("a")
+    anchor.href = `management.html?id=${id}`
+    anchor.text = json.IDTag
+    data.appendChild(anchor)
     row.appendChild(data)
 
     //BPM

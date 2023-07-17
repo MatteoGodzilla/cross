@@ -2,8 +2,8 @@ from pydantic import BaseModel
 from typing import Any
 
 class Song(BaseModel):
-    name = ""
-    artist = ""
+    Name = ""
+    Artist = ""
 
 class Difficulties(BaseModel):
     General = 0
@@ -49,8 +49,8 @@ def CreateCustom(info:list[str]):
     for i in range(3):
         if info[i+4] != None and info[i+5] != None:
             s = Song()
-            s.name = info[i+4]
-            s.artist = info[i+5]
+            s.Name = info[i+4]
+            s.Artist = info[i+5]
             custom.Songs.append(s)
 
     custom.Charter = info[10]
@@ -93,9 +93,9 @@ def CustomToDBColumns(custom:Custom) -> list[str]:
     Songs = custom.Songs
     if Songs != None:
         for i in range(min(3,len(Songs))):
-            if Songs[i].name != None:
+            if Songs[i].Name != None:
                 columns.append(f"Name{i+1}")
-            if Songs[i].artist != None:
+            if Songs[i].Artist != None:
                 columns.append(f"Artist{i+1}")
 
     if custom.Charter != None:
@@ -161,10 +161,10 @@ def CustomToDBValues(custom:Custom) -> list[Any]:
     Songs = custom.Songs
     if Songs != None:
         for i in range(min(3,len(Songs))):
-            if Songs[i].name != None:
-                values.append(Songs[i].name)
-            if Songs[i].artist != None:
-                values.append(Songs[i].artist)
+            if Songs[i].Name != None:
+                values.append(Songs[i].Name)
+            if Songs[i].Artist != None:
+                values.append(Songs[i].Artist)
 
     if custom.Charter != None:
         values.append(custom.Charter)

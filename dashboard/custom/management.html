@@ -13,12 +13,15 @@
 </head>
 
 <body>
+    <!-- Navbar -->
     <ul>
         <li><a href="index.html">Custom Dashboard</a></li>
         <li><a class="active" href="management.html">Add/Edit Custom</a></li>
         <li><a href="../megamix/index.html">Megamix Dashboard</a></li>
         <li><a href="../megamix/management.html">Add/Edit Megamix</a></li>
+        <span id="loggedInUsername"></span>
     </ul>
+
     <br>
     <div id="Custom" class="twoColumn form">
         <label class="required" for="IDTag">IDTag*</label>
@@ -60,27 +63,27 @@
         <label> Available Charts</label>
         <div>
             <label class="container" for="Beginner">Beginner
-                <input type="checkbox" name="Beginner" id="Beginner" onchange="DisableDeck('BeginnerDS')">
+                <input type="checkbox" name="Beginner" id="Beginner" onchange="BlockFields()">
                 <span class="checkmark"></span>
             </label>
 
             <label class="container" for="Easy">Easy
-                <input type="checkbox" name="Easy" id="Easy" onchange="DisableDeck('EasyDS')">
+                <input type="checkbox" name="Easy" id="Easy" onchange="BlockFields()">
                 <span class="checkmark"></span>
             </label>
 
             <label class="container" for="Medium">Medium
-                <input type="checkbox" name="Medium" id="Medium" onchange="DisableDeck('MediumDS')">
+                <input type="checkbox" name="Medium" id="Medium" onchange="BlockFields()">
                 <span class="checkmark"></span>
             </label>
 
             <label class="container" for="Hard">Hard
-                <input type="checkbox" name="Hard" id="Hard" onchange="DisableDeck('HardDS')">
+                <input type="checkbox" name="Hard" id="Hard" onchange="BlockFields()">
                 <span class="checkmark"></span>
             </label>
 
             <label class="container" for="Expert">Expert
-                <input type="checkbox" name="Expert" id="Expert" onchange="DisableDeck('ExpertDS')">
+                <input type="checkbox" name="Expert" id="Expert" onchange="BlockFields()">
                 <span class="checkmark"></span>
             </label>
         </div>
@@ -108,15 +111,11 @@
     <br>
     <!-- Action buttons -->
     <div class="twoColumn">
-        <div></div>
-        <label for="id">Database ID (only used for editing)</label>
-        <div></div>
-        <input type="number" name="id" id="id">
-        <button class="btnCreate" onclick="AddCustom()">ADD CUSTOM</button>
-        <button class="btnEdit" onclick="EditCustom()">EDIT CUSTOM</button>
+        <button class="btnConfirm" onclick="ConfirmAction()"></button>
+        <button class="btnDelete" onclick="DeleteCustom()">DELETE CUSTOM</button>
     </div>
 
-    <div id="login" class="hidden">
+    <dialog id="login">
         <div>
             <h1>Login</h1>
             In order to perform this action, a valid authorization code is required.
@@ -133,7 +132,7 @@
             <input type="submit" value="Login" onclick="Login()">
         </div>
         <script src="../login.js"></script>
-    </div>
+    </dialog>
 
     <script src="management.js"></script>
 </body>

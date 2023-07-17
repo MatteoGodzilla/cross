@@ -1,25 +1,47 @@
-async function AddCustom(){
+let state = undefined
+function initialCheck() {
+	const confirmButton = document.querySelector(".btnConfirm")
+	const params = new Proxy(new URLSearchParams(window.location.search), {
+		get: (searchParams, prop) => searchParams.get(prop)
+	});
+	let id = params.id
+	if (id != null) {
+		//set to edit
+		fetch(`/api/v1/custom/${id}`)
+			.then(res => res.json())
+			.then(CustomToForm)
+		confirmButton.textContent = "EDIT CUSTOM"
+		state = "EDIT"
+	} else {
+		//set to create
+		confirmButton.textContent = "ADD CUSTOM"
+		state = "ADD"
+	}
+}
+
+initialCheck()
+
+function ConfirmAction() {
+	if (state == "EDIT") EditCustom()
+	else if (state == "ADD") AddCustom()
+}
+
+async function AddCustom() {
 	try {
 		let custom = FormToCustomJSON()
 		// upload to database
 
 		let code = window.localStorage.getItem("Bearer")
-		if(code == undefined || code == "")
-			window.open("../login/index.html","parent")
 
 		let headers = new Headers()
-		//TODO: get authorization code from localstorage
-		headers.append("Authorization",`Bearer ${code}`)
-		headers.append("Content-Type","application/json")
-		let result = await fetch("/api/v1/custom/create",{
-			body:JSON.stringify(custom),
-			method:"POST",
-			headers:headers
+		headers.append("Authorization", `Bearer ${code}`)
+		headers.append("Content-Type", "application/json")
+		let result = await fetch("/api/v1/custom/create", {
+			body: JSON.stringify(custom),
+			method: "POST",
+			headers: headers
 		})
-		if(result.status != 201){
-			let login = document.querySelector("#login")
-			login.classList.remove("hidden")
-		} else {
+		if (result.status == 201) {
 			window.location = "../custom/index.html"
 		}
 	} catch (error) {
@@ -27,55 +49,92 @@ async function AddCustom(){
 	}
 }
 
-function EditCustom(){
+async function EditCustom() {
 	//MISSING CHECK IMPORTANT PARAMETERS LOGIC
-	alert("EDIT")
+	try {
+		let custom = FormToCustomJSON()
+		// upload to database
+		const params = new Proxy(new URLSearchParams(window.location.search), {
+			get: (searchParams, prop) => searchParams.get(prop)
+		});
+
+		let code = window.localStorage.getItem("Bearer")
+
+		let headers = new Headers()
+		headers.append("Authorization", `Bearer ${code}`)
+		headers.append("Content-Type", "application/json")
+		let result = await fetch(`/api/v1/custom/${params.id}`, {
+			body: JSON.stringify(custom),
+			method: "PATCH",
+			headers: headers
+		})
+		if (result.status == 200) {
+			window.location = "../custom/index.html"
+		}
+	} catch (error) {
+		alert(error);
+	}
 }
 
-function FormToCustomJSON(){
+async function DeleteCustom() {
+	const params = new Proxy(new URLSearchParams(window.location.search), {
+		get: (searchParams, prop) => searchParams.get(prop)
+	});
+	let id = params.id
+	if (id != null) {
+		if (confirm("Are you sure about that?")) {
+			let code = window.localStorage.getItem("Bearer")
+
+			let headers = new Headers()
+			headers.append("Authorization", `Bearer ${code}`)
+			let result = await fetch(`/api/v1/custom/${params.id}`, {
+				method: "DELETE",
+				headers: headers
+			})
+			if (result.status == 204) {
+				window.location = "../custom/index.html"
+			}
+		}
+	}
+}
+
+function FormToCustomJSON() {
 	//MISSING CHECK IMPORTANT PARAMETERS LOGIC
 	let custom = {}
 
 	//IDTAG (Required)
 	let IDTagInput = document.querySelector("#IDTag")
 	custom.IDTag = IDTagInput.value.trim()
-	if(custom.IDTag.length <= 0)
+	if (custom.IDTag.length <= 0)
 		throw "IDTag must not be empty"
 
 	//BPM (Required)
 	let BPMInput = document.querySelector("#BPM")
 	custom.BPM = Number(BPMInput.value.trim())
-	if(custom.BPM <= 0)
+	if (custom.BPM <= 0)
 		throw "BPM cannot be empty or less than zero"
 
 	//DOWNLOAD LINK (Required)
 	let downloadInput = document.querySelector("#DownloadLink")
 	custom.DownloadLink = downloadInput.value.trim()
 	//TODO: more robust url check
-	if(custom.DownloadLink.length <= 0)
+	if (custom.DownloadLink.length <= 0)
 		throw "Download Link must not be empty"
 
 	custom.Songs = []
-	for(let i = 1; i <=3; i++){
+	for (let i = 1; i <= 3; i++) {
 		let songNameInput = document.querySelector(`#SongName${i}`)
 		let songArtistInput = document.querySelector(`#ArtistName${i}`)
 
-		if(songNameInput.value.trim().length > 0){
-			let song = { }
-			song.name = songNameInput.value.trim()
-			song.artist = songArtistInput.value.trim()
+		if (songNameInput.value.trim().length > 0) {
+			let song = {}
+			song.Name = songNameInput.value.trim()
+			song.Artist = songArtistInput.value.trim()
 			custom.Songs.push(song)
 		}
 	}
-	if(custom.Songs.length == 0)
+	if (custom.Songs.length == 0)
 		throw "There must be at least one song in the custom"
-
-	//SONG NAME 1 (Required)
-	//SONG ARTIST 1 (Required)
-	//SONG NAME 2
-	//SONG ARTIST 2
-	//SONG NAME 3
-	//SONG ARTIST 3
 
 	//CHARTER
 	let charterInput = document.querySelector("#Charter")
@@ -158,16 +217,110 @@ function FormToCustomJSON(){
 	return custom
 }
 
-//DisableDeck() function disable fields that should remain empty (based on certain conditions)
-function DisableDeck(name)
-{
-	var item = document.getElementById(name);
-	if(item.disabled)
-	{
-		item.disabled = false;
+function CustomToForm(json) {
+	let IDTagInput = document.querySelector("#IDTag")
+	IDTagInput.value = json.IDTag
+
+	//BPM (Required)
+	let BPMInput = document.querySelector("#BPM")
+	BPMInput.value = json.BPM
+
+	//DOWNLOAD LINK (Required)
+	let downloadInput = document.querySelector("#DownloadLink")
+	downloadInput.value = json.DownloadLink
+
+	let songNames = document.querySelectorAll("[id^=SongName]")
+	let songArtists = document.querySelectorAll("[id^=ArtistName]")
+
+	for (let i = 0; i < 3 && i < json.Songs.length; i++) {
+		let song = json.Songs[i]
+		songNames[i].value = song.Name
+		songArtists[i].value = song.Artist
 	}
-	else
-	{
-		item.disabled = true;
+
+	//CHARTER
+	let charterInput = document.querySelector("#Charter")
+	charterInput.value = json.Charter
+
+	//MIXER
+	let mixerInput = document.querySelector("#Mixer")
+	mixerInput.value = json.Mixer
+
+	//DIFFICULTY
+	//GENERAL
+	let GeneralDiffInput = document.querySelector("#GeneralDiff")
+	GeneralDiffInput.value = json.Difficulties.General
+
+	//TAP
+	let TapDiffInput = document.querySelector("#TapDiff")
+	TapDiffInput.value = json.Difficulties.Tap
+
+	//CROSSFADE
+	let CrossfadeDiffInput = document.querySelector("#CrossfadeDiff")
+	CrossfadeDiffInput.value = json.Difficulties.Crossfade
+
+	//SCRATCH
+	let ScratchDiffInput = document.querySelector("#ScratchDiff")
+	ScratchDiffInput.value = json.Difficulties.Scratch
+
+	//AVAILABLE CHARTS
+	//BEGINNER
+	let beginnerInput = document.querySelector("#Beginner")
+	beginnerInput.checked = json.Charts.Beginner
+
+	//EASY
+	let EasyInput = document.querySelector("#Easy")
+	EasyInput.checked = json.Charts.Easy
+
+	//MEDIUM
+	let MediumInput = document.querySelector("#Medium")
+	MediumInput.checked = json.Charts.Medium
+
+	//HARD
+	let HardInput = document.querySelector("#Hard")
+	HardInput.checked = json.Charts.Hard
+
+	//EXPERT
+	let ExpertInput = document.querySelector("#Expert")
+	ExpertInput.checked = json.Charts.Expert
+
+	//DECKSPEEDS
+	//BEGINNER
+	let beginnerDSInput = document.querySelector("#BeginnerDS")
+	beginnerDSInput.value = json.DeckSpeeds.Beginner
+
+	//EASY
+	let EasyDSInput = document.querySelector("#EasyDS")
+	EasyDSInput.value = json.DeckSpeeds.Easy
+
+	//MEDIUM
+	let MediumDSInput = document.querySelector("#MediumDS")
+	MediumDSInput.value = json.DeckSpeeds.Medium
+
+	//HARD
+	let HardDSInput = document.querySelector("#HardDS")
+	HardDSInput.value = json.DeckSpeeds.Hard
+
+	//EXPERT
+	let ExpertDSInput = document.querySelector("#ExpertDS")
+	ExpertDSInput.value = json.DeckSpeeds.Expert
+
+	//VIDEO LINK
+	let videoLinkInput = document.querySelector("#VideoLink")
+	videoLinkInput.value = json.VideoLink;
+
+	//NOTES
+	let notesInput = document.querySelector("#Notes")
+	notesInput.value = json.Notes
+	BlockFields()
+}
+
+function BlockFields() {
+	let elms = ["Beginner", "Easy", "Medium", "Hard", "Expert"]
+	for (let name of elms) {
+		let checkbox = document.getElementById(name)
+		let dsfield = document.getElementById(name + "DS")
+
+		dsfield.disabled = !checkbox.checked
 	}
 }

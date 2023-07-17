@@ -78,7 +78,7 @@ def PatchCustom(id:int, elem:Custom, authorization:str|None=Header(default=None)
         conn.commit()
         DestroyConnection(conn)
 
-        return new
+        return CreateCustom(new)
     except:
         conn.rollback()
         DestroyConnection(conn)

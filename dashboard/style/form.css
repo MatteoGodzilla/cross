@@ -37,24 +37,24 @@ button {
     height: 1rem;
 }
 
-.btnCreate {
+.btnConfirm {
     background-color: #0eca14;
     color: white;
     border: 3px solid #0eca14;
 }
 
-.btnCreate:hover {
+.btnConfirm:hover {
     background-color: white;
     color: black;
 }
 
-.btnEdit {
-    background-color: #0f55ed;
+.btnDelete {
+    background-color: firebrick;
     color: white;
-    border: 3px solid #0f55ed;
+    border: 3px solid firebrick;
 }
 
-.btnEdit:hover {
+.btnDelete:hover {
     background-color: white;
     color: black;
 }
