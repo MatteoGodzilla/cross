@@ -3,12 +3,17 @@ function initialCheck() {
 	const confirmButton = document.querySelector(".btnConfirm")
 	const params = new Proxy(new URLSearchParams(window.location.search), {
 		get: (searchParams, prop) => searchParams.get(prop)
-	});
+	})
 	let id = params.id
 	if (id != null) {
 		//set to edit
-		fetch(`/api/v1/custom/${id}`)
+		let code = window.localStorage.getItem("Bearer")
+
+		let headers = new Headers()
+		headers.append("Authorization", `Bearer ${code}`)
+		fetch(`/api/v1/custom/${id}`, {headers:headers})
 			.then(res => res.json())
+			.then(json => { console.log(json);  return json})
 			.then(CustomToForm)
 		confirmButton.textContent = "EDIT CUSTOM"
 		state = "EDIT"
@@ -45,7 +50,7 @@ async function AddCustom() {
 			window.location = "../custom/index.html"
 		}
 	} catch (error) {
-		alert(error);
+		alert(error)
 	}
 }
 
@@ -56,7 +61,7 @@ async function EditCustom() {
 		// upload to database
 		const params = new Proxy(new URLSearchParams(window.location.search), {
 			get: (searchParams, prop) => searchParams.get(prop)
-		});
+		})
 
 		let code = window.localStorage.getItem("Bearer")
 
@@ -72,14 +77,14 @@ async function EditCustom() {
 			window.location = "../custom/index.html"
 		}
 	} catch (error) {
-		alert(error);
+		alert(error)
 	}
 }
 
 async function DeleteCustom() {
 	const params = new Proxy(new URLSearchParams(window.location.search), {
 		get: (searchParams, prop) => searchParams.get(prop)
-	});
+	})
 	let id = params.id
 	if (id != null) {
 		if (confirm("Are you sure about that?")) {
@@ -206,6 +211,10 @@ function FormToCustomJSON() {
 	let ExpertDSInput = document.querySelector("#ExpertDS")
 	custom.DeckSpeeds.Expert = Number(ExpertDSInput.value.trim())
 
+	//VISIBLE
+	let visible = document.querySelector("#visible")
+	custom.Visible = visible.checked
+
 	//VIDEO LINK
 	let videoLinkInput = document.querySelector("#VideoLink")
 	custom.VideoLink = videoLinkInput.value.trim()
@@ -305,9 +314,13 @@ function CustomToForm(json) {
 	let ExpertDSInput = document.querySelector("#ExpertDS")
 	ExpertDSInput.value = json.DeckSpeeds.Expert
 
+	//VISIBLE
+	let visible = document.querySelector("#visible")
+	visible.checked = json.Visible
+
 	//VIDEO LINK
 	let videoLinkInput = document.querySelector("#VideoLink")
-	videoLinkInput.value = json.VideoLink;
+	videoLinkInput.value = json.VideoLink
 
 	//NOTES
 	let notesInput = document.querySelector("#Notes")

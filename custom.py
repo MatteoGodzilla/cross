@@ -35,6 +35,7 @@ class Custom(BaseModel):
     Difficulties = Difficulties()
     Charts = Charts()
     DeckSpeeds = DeckSpeeds()
+    Visible:bool|None = True
     VideoLink:str|None = None
     Notes:str|None = None
 
@@ -78,6 +79,7 @@ def CreateCustom(info:list[str]):
 
     custom.VideoLink = info[26]
     custom.Notes = info[27]
+    custom.Visible = bool(info[28])
 
     return custom
 
@@ -145,7 +147,10 @@ def CustomToDBColumns(custom:Custom) -> list[str]:
         columns.append("VideoLink")
 
     if custom.Notes != None:
-        columns.append("Notes")
+        columns.append("notes")
+
+    if custom.Visible != None:
+        columns.append("visible")
 
     return columns
 
@@ -214,5 +219,8 @@ def CustomToDBValues(custom:Custom) -> list[Any]:
 
     if custom.Notes != None:
         values.append(custom.Notes)
+
+    if custom.Visible != None:
+        values.append(custom.Visible)
 
     return values

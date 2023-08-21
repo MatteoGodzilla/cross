@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add/Edit Custom</title>
+    <link rel="stylesheet" href="../style/general.css">
     <link rel="stylesheet" href="../style/navbar.css">
     <link rel="stylesheet" href="../style/form.css">
     <link rel="stylesheet" href="../style/customCheckbox.css">
@@ -101,6 +102,12 @@
         <input type="number" name="ExpertDS" id="ExpertDS" disabled="true" min="0">
         <div class="space"></div>
 
+        <label for="visible">Visible</label>
+        <!-- It has to be a label because the checkbox cannot be checked directly (it has no area) -->
+        <label class="container" for="visible">
+            <input type="checkbox" name="visible" id="visible" checked>
+            <span class="checkmark"></span>
+        </label>
         <label for="VideoLink">Video Link</label>
         <input type="text" name="VideoLink" id="VideoLink">
         <label for="Notes">Additional notes</label>

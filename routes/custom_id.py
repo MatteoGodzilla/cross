@@ -8,7 +8,7 @@ custom_id = APIRouter(prefix="/custom")
 # Returns a "Custom" class instance, encoded in json
 # <id> refers to the database key in the db, not IDTag
 @custom_id.get("/{id}")
-def GetCustom(id:int) -> Custom:
+def GetCustom(id:int,authorization:str|None=Header(default=None)) -> Custom:
     id = abs(id)
     conn = CreateConnection()
     if conn is None:
@@ -16,9 +16,10 @@ def GetCustom(id:int) -> Custom:
         return Response("There was an error with connecting to the database (500)",500)
 
     cursor = conn.cursor()
-    param_query = "SELECT * FROM customs WHERE id = ? AND visible = 1;"
+    param_query = "SELECT * FROM customs WHERE id = ? AND (visible = 1 OR ?);"
+
     # data parameter has to be either a tuple or a list
-    cursor.execute(param_query, [id])
+    cursor.execute(param_query, [id,CheckAuth(authorization)])
     res=cursor.fetchone()
     cursor.close()
     DestroyConnection(conn)

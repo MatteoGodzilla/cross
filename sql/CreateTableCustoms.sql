@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS `customs` (
   `DeckSpeedHard` float DEFAULT 1,
   `DeckSpeedExpert` float DEFAULT 1,
   `VideoLink` longtext DEFAULT NULL,
-  `notes` longtext DEFAULT NULL,
-  `visible` tinyint(1) DEFAULT 1,
+  `Notes` longtext DEFAULT NULL,
+  `Visible` tinyint(1) DEFAULT 1,
   `lastUpdate` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDTag_UNIQUE` (`IDTag`)

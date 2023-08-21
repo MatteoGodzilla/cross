@@ -1,12 +1,12 @@
 const maindialog = document.querySelector("#login")
 const usernameInput = document.querySelector("#username")
 const passwordInput = document.querySelector("#password")
-const usernameSpan = document.querySelector("#loggedInUsername");
+const usernameSpan = document.querySelector("#loggedInUsername")
 
 //Submit button
 async function Login() {
     if (usernameInput.value == "" || passwordInput.value == "")
-        return;
+        return
     let credentials = btoa(`${usernameInput.value}:${passwordInput.value}`)
 
     let headers = new Headers()
@@ -40,9 +40,9 @@ async function OnStart() {
 
     if (!result) {
         OpenLogin()
-        usernameSpan.textContent = "Not Logged in";
+        usernameSpan.textContent = "Not Logged in"
     } else {
-        usernameSpan.textContent = "Logged in";
+        usernameSpan.textContent = "Logged in"
     }
 }
 

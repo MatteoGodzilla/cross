@@ -6,7 +6,7 @@ async function GetLatestMegamixes(){
     console.log(ids)
 
     for(id of ids){
-        json = await fetch(`/api/v1/megamix/${id}`).then(res => res.json());
+        json = await fetch(`/api/v1/megamix/${id}`).then(res => res.json())
         console.log(json)
         megamixTable.appendChild(await MegamixToTable(json,id))
     }
@@ -60,7 +60,7 @@ async function MegamixToTable(json,id){
     }
     row.appendChild(data)
 
-    return row;
+    return row
 }
 
 GetLatestMegamixes()

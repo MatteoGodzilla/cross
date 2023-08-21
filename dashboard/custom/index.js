@@ -1,21 +1,27 @@
-async function GetLatestCustoms(){
+async function GetLatestCustoms() {
     let customsTable = document.querySelector("#customs tbody")
     customsTable.innerHTML = ""
 
-    ids = await fetch(`/api/v1/custom/latest/`).then(res => res.json())
-    //console.log(ids)
+    let code = window.localStorage.getItem("Bearer")
 
-    for(id of ids){
-        json = await fetch(`/api/v1/custom/${id}`).then(res => res.json());
+    let headers = new Headers()
+    headers.append("Authorization", `Bearer ${code}`)
+
+    ids = await fetch(`/api/v1/custom/latest/`, {headers:headers}).then(res => res.json())
+
+    for (id of ids) {
+        res = await fetch(`/api/v1/custom/${id}`, {headers:headers})
+        if (res.status != 200)
+            continue;
+        json = await res.json()
         //console.log(json)
-        customsTable.appendChild(CustomToTable(json,id))
+        customsTable.appendChild(CustomToTable(json, id))
     }
 }
 
-function CustomToTable(json,id)
-{
-	// Initializing the row that will contain the JSON object
-	const row = document.createElement("tr");
+function CustomToTable(json, id) {
+    // Initializing the row that will contain the JSON object
+    const row = document.createElement("tr")
 
     //database id
     let data = document.createElement("td")
@@ -37,11 +43,11 @@ function CustomToTable(json,id)
 
     //songs
     data = document.createElement("td")
-    if(json.Songs.length > 0){
-        for(let i = 0; i < json.Songs.length; i++){
+    if (json.Songs.length > 0) {
+        for (let i = 0; i < json.Songs.length; i++) {
             let song = json.Songs[i]
             data.textContent += `${song.name} / ${song.artist}`
-            if(i + 1 <json.Songs.length )
+            if (i + 1 < json.Songs.length)
                 data.textContent += " ⇌\n"
         }
     } else {
@@ -51,7 +57,7 @@ function CustomToTable(json,id)
 
     //Charter
     data = document.createElement("td")
-    if(json.Charter){
+    if (json.Charter) {
         data.textContent = json.Charter
     } else {
         data.textContent = "null"
@@ -60,7 +66,7 @@ function CustomToTable(json,id)
 
     //Mixer
     data = document.createElement("td")
-    if(json.Charter){
+    if (json.Charter) {
         data.textContent = json.Mixer
     } else {
         data.textContent = "null"
@@ -86,7 +92,7 @@ function CustomToTable(json,id)
 
     //Charts
     data = document.createElement("td")
-    if(json.Charts.Beginner)
+    if (json.Charts.Beginner)
         data.classList = "available"
     else
         data.classList = "notAvailable"
@@ -94,7 +100,7 @@ function CustomToTable(json,id)
     row.appendChild(data)
 
     data = document.createElement("td")
-    if(json.Charts.Easy)
+    if (json.Charts.Easy)
         data.classList = "available"
     else
         data.classList = "notAvailable"
@@ -102,7 +108,7 @@ function CustomToTable(json,id)
     row.appendChild(data)
 
     data = document.createElement("td")
-    if(json.Charts.Medium)
+    if (json.Charts.Medium)
         data.classList = "available"
     else
         data.classList = "notAvailable"
@@ -110,7 +116,7 @@ function CustomToTable(json,id)
     row.appendChild(data)
 
     data = document.createElement("td")
-    if(json.Charts.Hard)
+    if (json.Charts.Hard)
         data.classList = "available"
     else
         data.classList = "notAvailable"
@@ -118,7 +124,7 @@ function CustomToTable(json,id)
     row.appendChild(data)
 
     data = document.createElement("td")
-    if(json.Charts.Expert)
+    if (json.Charts.Expert)
         data.classList = "available"
     else
         data.classList = "notAvailable"
@@ -127,19 +133,19 @@ function CustomToTable(json,id)
 
     //Download Link
     data = document.createElement("td")
-    if(json.DownloadLink){
+    if (json.DownloadLink) {
         let anchor = document.createElement("a")
         anchor.href = json.DownloadLink
         anchor.text = "Download Link"
         data.append(anchor)
-    } else{
+    } else {
         data.textContent = "null"
     }
     row.appendChild(data)
 
     //Video link
     data = document.createElement("td")
-    if(json.VideoLink){
+    if (json.VideoLink) {
         anchor = document.createElement("a")
         anchor.href = json.VideoLink
         anchor.text = "Video link"
@@ -154,8 +160,8 @@ function CustomToTable(json,id)
     data.textContent = json.Notes
     row.appendChild(data)
 
-	//In the end, return the newly created row
-	return row;
+    //In the end, return the newly created row
+    return row
 }
 
 GetLatestCustoms()

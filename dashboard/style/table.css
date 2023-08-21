@@ -1,17 +1,22 @@
+table{
+    --available:darkgreen;
+    --not-available:firebrick;
+}
+
 tr{
     height: 2rem;
 }
 
 tr:nth-child(even){
-    background-color: #dddddd;
+    background-color: #333;
 }
 
 tr:nth-child(even)>.available{
-    background-color: lightgreen;
+    background-color: var(--available);
 }
 
 tr:nth-child(even)>.notAvailable{
-    background-color: lightcoral;
+    background-color: var(--not-available);
 }
 
 table{
@@ -28,9 +33,9 @@ td,th{
 
 /* CLASSES */
 .available{
-    background-color: lightgreen;
+    background-color: var(--available);
 }
 
 .notAvailable{
-    background-color: lightcoral;
+    background-color: var(--not-available);
 }
