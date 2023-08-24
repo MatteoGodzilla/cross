@@ -1,6 +1,7 @@
-let state = undefined
 function initialCheck() {
-	const confirmButton = document.querySelector(".btnConfirm")
+	const addButtons = document.querySelector("#addButtons")
+	const editButtons = document.querySelector("#editButtons")
+
 	const params = new Proxy(new URLSearchParams(window.location.search), {
 		get: (searchParams, prop) => searchParams.get(prop)
 	})
@@ -15,21 +16,14 @@ function initialCheck() {
 			.then(res => res.json())
 			.then(json => { console.log(json);  return json})
 			.then(CustomToForm)
-		confirmButton.textContent = "EDIT CUSTOM"
-		state = "EDIT"
+		addButtons.style.display = "none"
 	} else {
-		//set to create
-		confirmButton.textContent = "ADD CUSTOM"
-		state = "ADD"
+		//set to add
+		editButtons.style.display = "none"
 	}
 }
 
 initialCheck()
-
-function ConfirmAction() {
-	if (state == "EDIT") EditCustom()
-	else if (state == "ADD") AddCustom()
-}
 
 async function AddCustom() {
 	try {
@@ -89,9 +83,9 @@ async function DeleteCustom() {
 	if (id != null) {
 		if (confirm("Are you sure about that?")) {
 			let code = window.localStorage.getItem("Bearer")
-
 			let headers = new Headers()
 			headers.append("Authorization", `Bearer ${code}`)
+			
 			let result = await fetch(`/api/v1/custom/${params.id}`, {
 				method: "DELETE",
 				headers: headers

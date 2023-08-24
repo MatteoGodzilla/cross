@@ -22,7 +22,10 @@ async function MegamixToTable(json,id){
 
     //Name
     data = document.createElement("td")
-    data.textContent = json.Name
+    let anchor = document.createElement("a")
+    anchor.href = `management.html?id=${id}`
+    anchor.text = json.Name
+    data.appendChild(anchor)
     row.appendChild(data)
 
     //Customs

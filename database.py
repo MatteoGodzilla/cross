@@ -26,7 +26,6 @@ def DestroyConnection(connect : Connection) -> None:
 
 # CHECKING IF THE DB EXISTS - IF NOT, CREATE THE DB AND USE IT
 def InitializeIfNeeded(connection:Connection) -> None:
-    print("Initializing")
     cursor = connection.cursor()
     # Create Database
     file = open("./sql/CreateDatabase.sql")
@@ -54,7 +53,7 @@ def InitializeIfNeeded(connection:Connection) -> None:
     file.close()
 
     cursor.close()
-    print("Initialized the database")
+    print("Database Ready")
 
 # Returns true if the 'Authorization' header contains a valid bearer token
 def CheckAuth(authorization:str|None) -> bool:

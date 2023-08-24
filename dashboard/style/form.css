@@ -62,3 +62,15 @@ button {
 .required {
     text-decoration: underline;
 }
+
+/* MEGAMIX SPECIFIC FORM THINGS */
+
+#tracksContainer{
+    display: grid;
+    grid-template-columns: auto repeat(4,2rem);
+}
+#tracksContainer *{
+    padding: 0px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}

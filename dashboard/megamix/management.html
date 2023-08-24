@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,8 +24,16 @@
     <div class="twoColumn form">
         <label for="MegamixName">Name</label>
         <input type="text" name="MegamixName" id="MegamixName">
-        <label for="MegamixCustoms">Tracks</label>
-        <input type="text" name="MegamixCustoms" id="MegamixCustoms" placeholder="custom1_id, custom2_id, ...">
+        <label for="MegamixCustoms">Track Ids</label>
+        <div id="tracksContainer">
+            <select>
+                <option value="" selected>Loading...</option>
+            </select>
+            <button>⮝</button>
+            <button>⮟</button>
+            <button>-</button>
+            <button>+</button>
+        </div>
         <label for="MegamixDownload">Download Link</label>
         <input type="text" name="MegamixDownload" id="MegamixDownload">
         <label for="MegamixPreview">Video Preview</label>
@@ -33,15 +42,15 @@
     <br>
     <br>
     <!-- Action buttons -->
-    <div class="twoColumn">
-        <div></div>
-        <label for="id">Database id (only used for editing)</label>
-        <div></div>
-        <input type="number" name="id" id="id">
-        <button class="button btnCreate" onclick="AddMegamix()">ADD MEGAMIX</button>
-        <button class="button btnEdit" onclick="EditMegamix()">EDIT MEGAMIX</button>
+    <div class="twoColumn" id="addButtons">
+        <button class="btnConfirm" onclick="AddMegamix()">ADD MEGAMIX</button>
+        <button class="btnDelete" onclick="window.location = 'index.html'">GO BACK</button>
     </div>
-    <div id="login" class="hidden">
+    <div class="twoColumn" id="editButtons">
+        <button class="btnConfirm" onclick="EditMegamix()">EDIT MEGAMIX</button>
+        <button class="btnDelete" onclick="DeleteMegamix()">DELETE MEGAMIX</button>
+    </div>
+    <dialog id="login">
         <div>
             <h1>Login</h1>
             In order to perform this action, a valid authorization code is required.
@@ -58,8 +67,9 @@
             <input type="submit" value="Login" onclick="Login()">
         </div>
         <script src="../login.js"></script>
-    </div>
+    </dialog>
 
-    <script src="management.js"></script>
-    </body>
+    <script src="megamixManagement.js"></script>
+</body>
+
 </html>

@@ -12,7 +12,7 @@ async function GetLatestCustoms() {
     for (id of ids) {
         res = await fetch(`/api/v1/custom/${id}`, {headers:headers})
         if (res.status != 200)
-            continue;
+            continue
         json = await res.json()
         //console.log(json)
         customsTable.appendChild(CustomToTable(json, id))

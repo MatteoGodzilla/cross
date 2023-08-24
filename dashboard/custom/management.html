@@ -117,8 +117,12 @@
     <br>
     <br>
     <!-- Action buttons -->
-    <div class="twoColumn">
-        <button class="btnConfirm" onclick="ConfirmAction()"></button>
+    <div class="twoColumn" id="addButtons">
+        <button class="btnConfirm" onclick="AddCustom()">ADD CUSTOM</button>
+        <button class="btnDelete" onclick="window.location = 'index.html'">GO BACK</button>
+    </div>
+    <div class="twoColumn" id="editButtons">
+        <button class="btnConfirm" onclick="EditCustom()">EDIT CUSTOM</button>
         <button class="btnDelete" onclick="DeleteCustom()">DELETE CUSTOM</button>
     </div>
 
@@ -141,7 +145,7 @@
         <script src="../login.js"></script>
     </dialog>
 
-    <script src="management.js"></script>
+    <script src="customManagement.js"></script>
 </body>
 
 </html>

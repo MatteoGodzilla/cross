@@ -1,6 +1,6 @@
 from fastapi import APIRouter,Response, Header
 from database import CreateConnection,DestroyConnection,CheckAuth
-from megamix import Megamix,CreateMegamix
+from megamix import Megamix,CreateMegamix,MegamixToDBColumns, MegamixToDBValues
 
 megamix_id = APIRouter(prefix="/megamix")
 
@@ -44,7 +44,7 @@ def GetMegamix(id:int) -> Megamix:
 # Request must have an Authorization code attached to the header, see /api/v1/login
 # Returns a Megamix instance with all of the fields that are currently saved in the db
 @megamix_id.patch("/{id}")
-def PatchMegamix(id, mgmx:Megamix, authorization:str|None=Header(default=None)) -> Megamix:
+def PatchMegamix(id:int, mgmx:Megamix, authorization:str|None=Header(default=None)) -> Megamix:
     if not CheckAuth(authorization):
         # Convert to raise HTTPException
         return Response("Authorization code was invalid (403)",403)
@@ -56,20 +56,37 @@ def PatchMegamix(id, mgmx:Megamix, authorization:str|None=Header(default=None)) 
         # Convert to raise HTTPException
         return Response("There was an error with connecting to the database (500)",500)
     cursor = conn.cursor()
-    values = []
-    columns = []
-    query = "UPDATE megamix SET "
+    columns = MegamixToDBColumns(mgmx)
+    values = MegamixToDBValues(mgmx)
+    values.append(id)
 
-    if mgmx.Name != "":
-        query += "Name = "+ mgmx.Name
-    if mgmx.DownloadLink != "":
-        query += "DownloadLink = "+ mgmx.DownloadLink
-    if mgmx.VideoPreview != "":
-        query+= "VideoPreview = "+ mgmx.VideoPreview
+    param_query = "UPDATE megamix SET "
+    for i,e in enumerate(columns):
+        e = columns[i]
+        param_query += e + " = ?"
+        if i < len(columns)-1:
+            param_query += ", "
+    param_query += " WHERE id = ?;"
 
-    query += "WHERE id = ?;"
-    cursor.execute(query, [id])
+    print(param_query)
+    cursor.execute(param_query, values)
     cursor.close()
+
+    # Set values in megamix-custom
+    cursor = conn.cursor()
+    query = "DELETE FROM `megamix-customs` WHERE megamixID = ?;"
+    cursor.execute(query,[id])
+
+    junction = "INSERT INTO `megamix-customs` (megamixID, customID, `order`) VALUES (?,?,?);"
+
+    rows = []
+    for i,customID in enumerate(mgmx.Customs):
+        rows.append((id,customID,i))
+
+    cursor.executemany(junction,rows)
+
+    cursor.close()
+    conn.commit()
     DestroyConnection(conn)
 
     return GetMegamix(id)
@@ -80,26 +97,33 @@ def PatchMegamix(id, mgmx:Megamix, authorization:str|None=Header(default=None)) 
 # Request must have an Authorization code attached to the header, see /api/v1/login
 # Returns 204 no content on success
 @megamix_id.delete("/{id}")
-def DeleteMegamix(id, authorization:str|None=Header(default=None)):
+def DeleteMegamix(id:int, authorization:str|None=Header(default=None)):
     if not CheckAuth(authorization):
         # Convert to raise HTTPException
         return Response("Authorization code was invalid (403)",403)
+
     if id < 0:
         id *= -1
+
     conn = CreateConnection()
     if conn is None:
         # Convert to raise HTTPException
         return Response("There was an error with connecting to the database (500)",500)
+
     cursor = conn.cursor()
-    param_query = 'DELETE * FROM megamix WHERE id = ?;'
-    checking_query = 'SELECT * FROM megamix-customs WHERE megamixID = ?'
+    param_query = 'DELETE FROM megamix WHERE id = ?;'
+    checking_query = 'SELECT * FROM megamix WHERE id = ?'
     cursor.execute(param_query, [id])
-    cursor.execute(checking_query, [id])
+    cursor.execute(checking_query,[id])
     res = cursor.fetchone()
     cursor.close()
-    DestroyConnection(conn)
+
     if res is None:
-        return Response(204)
+        conn.commit()
+        DestroyConnection(conn)
+        return Response(status_code=204)
     else:
-        return Response("NOT IMPLEMENTED",501)
+        conn.rollback()
+        DestroyConnection(conn)
+        return Response("There was an error deleting the megamix",501)
 
